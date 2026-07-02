@@ -185,7 +185,7 @@ def _get_article_body_from_api(product: dict) -> str:
         "- 誇張・扇情的な煽り文句（『必見』『話題沸騰』等）は使わない\n"
         "- 作品タイトルとジャンル・価格から素直に読み取れる範囲の紹介にとどめる\n"
         "- 未成年を想起させる表現は一切使わない（成人向け作品であることを前提にする）\n"
-        "- 本文冒頭に本文用の見出し（* から始まる行）を1つ入れる\n"
+        "- 2〜3段落程度に分け、段落の間は空行で区切る（見出し記号やMarkdown記法は使わない、プレーンテキストのみ）\n"
         "- 出力は本文のみ。前置きや説明は不要。"
     )
     resp = requests.post(
@@ -211,38 +211,83 @@ def _get_article_body_from_api(product: dict) -> str:
 
 def _get_article_body_template(product: dict) -> str:
     genre_str = '、'.join(product['genres'][:5]) if product['genres'] else '不明'
-    lines = [
-        f"* {product['title']} について",
-        '',
-        f"ジャンル: {genre_str}",
-    ]
+    parts = [f"{product['title']} は{genre_str}系の同人作品です。"]
     if product.get('maker'):
-        lines.append(f"サークル: {product['maker']}")
+        parts.append(f"サークルは{product['maker']}。")
     if product.get('price'):
-        lines.append(f"価格: {product['price']}")
+        parts.append(f"価格は{product['price']}です。")
     if product.get('review_avg') and product.get('review_count'):
-        lines.append(f"レビュー: 平均{product['review_avg']}点（{product['review_count']}件）")
-    lines.append('')
-    lines.append('気になる方は下記の作品ページで詳細をご確認ください。')
-    return '\n'.join(lines)
+        parts.append(f"レビューは平均{product['review_avg']}点（{product['review_count']}件）が寄せられています。")
+    return ' '.join(parts) + '\n\n気になる方は下記の作品ページで詳細をご確認ください。'
+
+
+def _paragraphs_to_html(text: str) -> str:
+    """空行区切りの段落テキストを <p> タグ単位のHTMLに変換する。"""
+    paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+    html_parts = []
+    for p in paragraphs:
+        # 段落内の単一改行は <br> に変換
+        p_html = escape(p).replace('\n', '<br>')
+        html_parts.append(f'<p>{p_html}</p>')
+    return '\n'.join(html_parts)
 
 
 def build_article(product: dict) -> dict:
-    body_main = get_article_body_ai(product)
-    body_parts = [body_main, '']
+    body_main_html = _paragraphs_to_html(get_article_body_ai(product))
+
+    info_rows = []
+    genre_str = '、'.join(product['genres'][:5]) if product['genres'] else ''
+    if genre_str:
+        info_rows.append(f'<tr><th>ジャンル</th><td>{escape(genre_str)}</td></tr>')
+    if product.get('maker'):
+        info_rows.append(f'<tr><th>サークル</th><td>{escape(product["maker"])}</td></tr>')
+    if product.get('price'):
+        info_rows.append(f'<tr><th>価格</th><td>{escape(product["price"])}</td></tr>')
+    if product.get('review_avg') and product.get('review_count'):
+        info_rows.append(
+            f'<tr><th>レビュー</th><td>平均{product["review_avg"]}点'
+            f'（{product["review_count"]}件）</td></tr>'
+        )
+    info_table = ''
+    if info_rows:
+        info_table = f'<table>{"".join(info_rows)}</table>'
+
+    image_html = ''
     if product.get('package_image'):
-        body_parts.append(f"[f:id:{HATENA_ID}:plain:{product['package_image']}]")
-        body_parts.append('')
-    body_parts.append(f"[{product['title']}]({product['affiliate_url']})")
-    body_parts.append('')
-    body_parts.append('※本記事はアフィリエイトプログラムによる収益を得ています。 #PR')
-    body_parts.append('※成人向けコンテンツを含みます。18歳未満の方はご利用いただけません。')
+        img_url = escape(product['package_image'])
+        image_html = (
+            f'<p><a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow">'
+            f'<img src="{img_url}" alt="{escape(product["title"])}" loading="lazy" '
+            f'style="max-width:100%;height:auto;"></a></p>'
+        )
+
+    cta_html = (
+        f'<p><a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow" '
+        'style="display:inline-block;padding:10px 20px;background:#e0507a;color:#fff;'
+        'text-decoration:none;border-radius:4px;">作品ページを見る</a></p>'
+    )
+
+    disclaimer_html = (
+        '<p><small>※本記事はアフィリエイトプログラムによる収益を得ています。#PR<br>'
+        '※成人向けコンテンツを含みます。18歳未満の方はご利用いただけません。</small></p>'
+    )
+
+    body_html = '\n'.join(
+        part for part in [
+            f'<h3>{escape(product["title"])}</h3>',
+            image_html,
+            body_main_html,
+            info_table,
+            cta_html,
+            disclaimer_html,
+        ] if part
+    )
 
     genre_categories = product['genres'][:5] if product['genres'] else []
 
     return {
         'title':      product['title'],
-        'body':       '\n'.join(body_parts),
+        'body':       body_html,
         'categories': genre_categories + ['FANZA同人', 'PR'],
     }
 
@@ -275,7 +320,7 @@ def post_draft_to_hatena(article: dict) -> bool:
        xmlns:app="http://www.w3.org/2007/app">
   <title>{escape(article['title'])}</title>
   <author><name>{escape(HATENA_ID)}</name></author>
-  <content type="text/x-hatena-syntax">{escape(article['body'])}</content>
+  <content type="text/html">{escape(article['body'])}</content>
   {categories_xml}
   <app:control>
     <app:draft>yes</app:draft>
