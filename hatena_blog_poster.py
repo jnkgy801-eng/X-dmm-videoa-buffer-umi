@@ -133,6 +133,18 @@ def parse_product(item):
     img = item.get('imageURL', {}) or {}
     package_image = img.get('large') or img.get('small') or ''
 
+    # サンプル画像（作品紹介用に複数枚）
+    sample_images = []
+    sample_url_block = item.get('sampleImageURL', {}) or {}
+    for key in ('sample_l', 'sample_s'):
+        block = sample_url_block.get(key) or {}
+        images = block.get('image') or []
+        if isinstance(images, str):
+            images = [images]
+        if images:
+            sample_images = [u for u in images if u]
+            break
+
     return {
         'title':         title,
         'affiliate_url': affiliate_url,
@@ -143,6 +155,7 @@ def parse_product(item):
         'review_avg':    review_avg,
         'review_count':  review_count,
         'package_image': package_image,
+        'sample_images': sample_images,
     }
 
 
@@ -150,12 +163,13 @@ def parse_product(item):
 # 📝 記事本文生成
 # ================================================================
 
-def get_article_body_ai(product: dict) -> str:
+def get_article_body_ai(product: dict) -> dict:
     """
     Claude APIが使える場合はAI生成、使えない場合はテンプレートに
     フォールバックする。誇張表現や扇情的な煽り文句は避け、
     作品情報（ジャンル・価格・サークル・レビュー）に基づいた
     落ち着いた紹介文にする。
+    戻り値: {'overview': str, 'points': [str, ...]}
     """
     if ANTHROPIC_API_KEY:
         try:
@@ -165,7 +179,7 @@ def get_article_body_ai(product: dict) -> str:
     return _get_article_body_template(product)
 
 
-def _get_article_body_from_api(product: dict) -> str:
+def _get_article_body_from_api(product: dict) -> dict:
     genre_str = '・'.join(product['genres'][:5]) if product['genres'] else '不明'
     review_str = (
         f"平均{product['review_avg']}点（{product['review_count']}件のレビュー）"
@@ -173,20 +187,21 @@ def _get_article_body_from_api(product: dict) -> str:
         else '不明'
     )
     prompt = (
-        "FANZA同人（成人向け）作品を紹介するはてなブログ記事の本文を、"
-        "はてな記法（見出しは大見出し*、中見出しは**）で書いてください。\n\n"
+        "FANZA同人（成人向け）作品を紹介するはてなブログ記事の本文材料を作成してください。\n\n"
         f"作品名: {product['title']}\n"
         f"ジャンル: {genre_str}\n"
         f"サークル: {product.get('maker') or '不明'}\n"
         f"価格: {product.get('price') or '不明'}\n"
         f"レビュー: {review_str}\n\n"
         "条件:\n"
-        "- 250〜400文字程度\n"
         "- 誇張・扇情的な煽り文句（『必見』『話題沸騰』等）は使わない\n"
         "- 作品タイトルとジャンル・価格から素直に読み取れる範囲の紹介にとどめる\n"
         "- 未成年を想起させる表現は一切使わない（成人向け作品であることを前提にする）\n"
-        "- 2〜3段落程度に分け、段落の間は空行で区切る（見出し記号やMarkdown記法は使わない、プレーンテキストのみ）\n"
-        "- 出力は本文のみ。前置きや説明は不要。"
+        "- 出力は必ず次のプレーンテキスト形式のみ。前置きや説明・Markdown記法は禁止。\n\n"
+        "===OVERVIEW===\n"
+        "(150〜250文字程度で作品概要を1〜2段落。段落間は空行で区切る)\n"
+        "===POINTS===\n"
+        "(「ここがポイント」として3〜4個、1行1項目、先頭に「- 」を付ける)\n"
     )
     resp = requests.post(
         'https://api.anthropic.com/v1/messages',
@@ -197,28 +212,46 @@ def _get_article_body_from_api(product: dict) -> str:
         },
         json={
             'model': 'claude-haiku-4-5-20251001',
-            'max_tokens': 500,
+            'max_tokens': 600,
             'messages': [{'role': 'user', 'content': prompt}],
         },
         timeout=15,
     )
     data = resp.json()
     text = data.get('content', [{}])[0].get('text', '').strip()
-    if not text:
-        raise ValueError('empty response')
-    return text
+    if not text or '===OVERVIEW===' not in text or '===POINTS===' not in text:
+        raise ValueError('unexpected AI response format')
+
+    overview_part = text.split('===OVERVIEW===', 1)[1].split('===POINTS===', 1)[0].strip()
+    points_part = text.split('===POINTS===', 1)[1].strip()
+    points = [
+        line.strip().lstrip('-').strip()
+        for line in points_part.splitlines()
+        if line.strip().lstrip('-').strip()
+    ]
+    if not overview_part or not points:
+        raise ValueError('empty overview or points')
+    return {'overview': overview_part, 'points': points[:4]}
 
 
-def _get_article_body_template(product: dict) -> str:
+def _get_article_body_template(product: dict) -> dict:
     genre_str = '、'.join(product['genres'][:5]) if product['genres'] else '不明'
-    parts = [f"{product['title']} は{genre_str}系の同人作品です。"]
+    overview = f"{product['title']} は{genre_str}系の同人作品です。"
     if product.get('maker'):
-        parts.append(f"サークルは{product['maker']}。")
+        overview += f" サークルは{product['maker']}。"
+    overview += "\n\n気になる方は下記の作品ページで詳細をご確認ください。"
+
+    points = []
+    for g in (product.get('genres') or [])[:3]:
+        points.append(f"{g}要素が中心のストーリー")
     if product.get('price'):
-        parts.append(f"価格は{product['price']}です。")
+        points.append(f"価格は{product['price']}")
     if product.get('review_avg') and product.get('review_count'):
-        parts.append(f"レビューは平均{product['review_avg']}点（{product['review_count']}件）が寄せられています。")
-    return ' '.join(parts) + '\n\n気になる方は下記の作品ページで詳細をご確認ください。'
+        points.append(f"レビュー平均{product['review_avg']}点（{product['review_count']}件）")
+    if not points:
+        points = ['作品ページで詳細をチェック']
+
+    return {'overview': overview, 'points': points[:4]}
 
 
 def _paragraphs_to_html(text: str) -> str:
@@ -264,10 +297,52 @@ def _star_rating_html(avg, count) -> str:
     )
 
 
+def _points_list_html(points: list) -> str:
+    if not points:
+        return ''
+    items = ''.join(
+        f'<li style="margin:6px 0;line-height:1.6;color:#333;">{escape(pt)}</li>'
+        for pt in points
+    )
+    return (
+        '<div style="background:#fef6f8;border-left:4px solid #e0507a;border-radius:8px;'
+        'padding:12px 16px;margin:14px 0;">'
+        '<div style="font-weight:bold;color:#e0507a;margin-bottom:6px;">✓ ここがポイント</div>'
+        f'<ul style="margin:0;padding-left:20px;">{items}</ul>'
+        '</div>'
+    )
+
+
+def _sample_gallery_html(affiliate_url: str, sample_images: list, title: str) -> str:
+    imgs = [u for u in (sample_images or []) if u][:4]
+    if not imgs:
+        return ''
+    cells = []
+    for url in imgs:
+        cells.append(
+            f'<a href="{escape(affiliate_url)}" target="_blank" rel="nofollow" '
+            'style="flex:1 1 45%;min-width:120px;">'
+            f'<img src="{escape(url)}" alt="{escape(title)} サンプル画像" loading="lazy" '
+            'style="width:100%;height:auto;border-radius:8px;display:block;'
+            'box-shadow:0 1px 6px rgba(0,0,0,0.1);"></a>'
+        )
+    return (
+        '<div style="margin:16px 0;">'
+        '<div style="font-weight:bold;color:#555;margin-bottom:8px;font-size:14px;">作品サンプル</div>'
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + ''.join(cells) + '</div>'
+        '</div>'
+    )
+
+
 def build_article(product: dict) -> dict:
-    body_main_html = _paragraphs_to_html(get_article_body_ai(product))
+    body_content = get_article_body_ai(product)
+    overview_html = _paragraphs_to_html(body_content['overview'])
+    points_html = _points_list_html(body_content['points'])
     genre_badges_html = _genre_badges_html(product.get('genres', []))
     star_html = _star_rating_html(product.get('review_avg'), product.get('review_count'))
+    gallery_html = _sample_gallery_html(
+        product.get('affiliate_url', ''), product.get('sample_images', []), product.get('title', '')
+    )
 
     meta_line_parts = []
     if product.get('maker'):
@@ -298,6 +373,12 @@ def build_article(product: dict) -> dict:
             f'font-size:15px;font-weight:bold;margin:10px 0;">価格 {escape(product["price"])}</div>'
         )
 
+    overview_section_html = (
+        '<div style="margin-top:14px;">'
+        '<div style="font-weight:bold;color:#555;margin-bottom:6px;font-size:14px;">作品概要</div>'
+        f'{overview_html}</div>'
+    )
+
     cta_html = (
         f'<div style="text-align:center;margin:20px 0 8px;">'
         f'<a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow" '
@@ -321,7 +402,9 @@ def build_article(product: dict) -> dict:
             genre_badges_html,
             star_html,
             price_badge_html,
-            f'<div style="margin-top:14px;">{body_main_html}</div>',
+            overview_section_html,
+            points_html,
+            gallery_html,
             cta_html,
             disclaimer_html,
         ] if part
