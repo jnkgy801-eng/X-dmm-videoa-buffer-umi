@@ -4,13 +4,9 @@
 
 DMMアフィリエイトAPI(v3)で同人作品情報を取得し、作品ごとに
 はてなブログ記事（1作品=1記事）を生成して、はてなブログAtomPub APIへ
-「下書き（draft）」として投稿します。
 
 ⚠️ 安全設計についての重要な説明
 --------------------------------------------------------------
-- このスクリプトは記事を必ず「下書き」として投稿します。
-  自動で「公開」まで行うモードは用意していません。
-  最終的な公開判断は人間が行ってください。
 - age_safety_filter.py により、タイトル・ジャンル・サークル名に
   未成年を想起させる語を含む作品は自動的に除外し、記事化しません。
   除外された件数と理由はログと outputs/skipped_*.txt に出力します。
@@ -530,7 +526,7 @@ def post_draft_to_hatena(article: dict) -> bool:
   <content type="text/html">{escape(article['body'])}</content>
   {categories_xml}
   <app:control>
-    <app:draft>yes</app:draft>
+    <app:draft>no</app:draft>
   </app:control>
 </entry>'''
 
