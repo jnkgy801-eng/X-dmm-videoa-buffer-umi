@@ -1,0 +1,355 @@
+# -*- coding: utf-8 -*-
+"""
+📝 FANZA同人 → はてなブログ 記事自動生成・下書き投稿ツール
+
+DMMアフィリエイトAPI(v3)で同人作品情報を取得し、作品ごとに
+はてなブログ記事（1作品=1記事）を生成して、はてなブログAtomPub APIへ
+「下書き（draft）」として投稿します。
+
+⚠️ 安全設計についての重要な説明
+--------------------------------------------------------------
+- このスクリプトは記事を必ず「下書き」として投稿します。
+  自動で「公開」まで行うモードは用意していません。
+  最終的な公開判断は人間が行ってください。
+- age_safety_filter.py により、タイトル・ジャンル・サークル名に
+  未成年を想起させる語を含む作品は自動的に除外し、記事化しません。
+  除外された件数と理由はログと outputs/skipped_*.txt に出力します。
+- はてなブログ側の設定で「アダルトカテゴリブログ」に設定すること、
+  年齢確認・注意書きの掲載など、プラットフォームの利用規約・
+  法令（景品表示法のPR表記等含む）を遵守する責任は運用者にあります。
+--------------------------------------------------------------
+"""
+
+import os
+import sys
+import base64
+import hashlib
+import random
+import datetime
+import requests
+from pathlib import Path
+from xml.sax.saxutils import escape
+
+from age_safety_filter import is_safe, find_matched_keywords
+
+# ================================================================
+# ⚙️ 設定（環境変数から読み込み）
+# ================================================================
+
+DMM_API_ID       = os.environ.get('DMM_API_ID', '')
+DMM_AFFILIATE_ID = os.environ.get('DMM_AFFILIATE_ID', '')
+
+HATENA_ID        = os.environ.get('HATENA_ID', '')        # はてなID
+HATENA_BLOG_ID   = os.environ.get('HATENA_BLOG_ID', '')   # 例: example.hatenablog.com
+HATENA_API_KEY   = os.environ.get('HATENA_API_KEY', '')   # ブログの詳細設定＞AtomPub＞APIキー
+
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+
+if not DMM_API_ID or not DMM_AFFILIATE_ID:
+    print('❌ 環境変数 DMM_API_ID / DMM_AFFILIATE_ID が設定されていません。')
+    sys.exit(1)
+
+if not HATENA_ID or not HATENA_BLOG_ID or not HATENA_API_KEY:
+    print('❌ 環境変数 HATENA_ID / HATENA_BLOG_ID / HATENA_API_KEY が設定されていません。')
+    sys.exit(1)
+
+print('✅ 認証情報を読み込みました。')
+
+DMM_API_BASE = 'https://api.dmm.com/affiliate/v3'
+
+# 同人フロア固定（このツールはFANZA同人紹介専用）
+SERVICE = 'doujin'
+FLOOR   = 'digital_doujin'
+
+DMM_SORT_MODE = os.environ.get('DMM_SORT_MODE', 'date').lower()
+SORT_TARGETS = {'date': '-date', 'rank': '-rank'}
+SORT_KEY = SORT_TARGETS.get(DMM_SORT_MODE, '-date')
+
+_raw_start = os.environ.get('POST_START_INDEX', '')
+if _raw_start.strip().isdigit():
+    POST_START_INDEX = int(_raw_start.strip())
+else:
+    POST_START_INDEX = random.randint(1, 480)
+print(f'📌 取得開始番号: {POST_START_INDEX}')
+
+FETCH_COUNT = int(os.environ.get('FETCH_COUNT', '20'))
+MAX_ARTICLES = int(os.environ.get('MAX_ARTICLES', '5'))  # 1回の実行で投稿する記事数の上限
+
+# ================================================================
+# 🔧 DMM API 関連（既存スクリプトと同じロジックを踏襲）
+# ================================================================
+
+def fetch_dmm_products():
+    params = {
+        'api_id':       DMM_API_ID,
+        'affiliate_id': DMM_AFFILIATE_ID,
+        'site':         'FANZA',
+        'service':      SERVICE,
+        'floor':        FLOOR,
+        'hits':         FETCH_COUNT,
+        'offset':       POST_START_INDEX,
+        'sort':         SORT_KEY,
+        'output':       'json',
+    }
+    try:
+        resp = requests.get(f'{DMM_API_BASE}/ItemList', params=params, timeout=15)
+        data = resp.json()
+        items = data.get('result', {}).get('items', [])
+        if isinstance(items, dict):
+            items = items.get('item', [])
+        print(f'✅ DMM APIから {len(items)} 件取得しました。')
+        return items
+    except Exception as e:
+        print(f'❌ DMM APIエラー: {e}')
+        return []
+
+
+def parse_product(item):
+    title         = item.get('title', '')
+    affiliate_url = item.get('affiliateURL', '') or item.get('URL', '')
+    prices        = item.get('prices', {})
+    price_str, price_num = '', None
+    if prices:
+        price_val = prices.get('price') or prices.get('list_price') or ''
+        if price_val:
+            digits = ''.join(c for c in str(price_val) if c.isdigit())
+            if digits:
+                price_num = int(digits)
+                price_str = f'¥{price_num:,}'
+
+    genres = [g.get('name', '') for g in (item.get('iteminfo', {}).get('genre') or [])]
+    maker  = ((item.get('iteminfo', {}).get('maker') or [{}])[0]).get('name', '')
+
+    review_info = item.get('review', {}) or {}
+    try:
+        review_avg   = float(review_info.get('average', 0) or 0)
+        review_count = int(review_info.get('count', 0) or 0)
+    except (ValueError, TypeError):
+        review_avg, review_count = 0.0, 0
+    review_avg   = round(review_avg, 2) if review_avg else None
+    review_count = review_count if review_count else None
+
+    package_image = ''
+    img = item.get('imageURL', {}) or {}
+    package_image = img.get('large') or img.get('small') or ''
+
+    return {
+        'title':         title,
+        'affiliate_url': affiliate_url,
+        'price':         price_str,
+        'price_num':     price_num,
+        'genres':        genres,
+        'maker':         maker,
+        'review_avg':    review_avg,
+        'review_count':  review_count,
+        'package_image': package_image,
+    }
+
+
+# ================================================================
+# 📝 記事本文生成
+# ================================================================
+
+def get_article_body_ai(product: dict) -> str:
+    """
+    Claude APIが使える場合はAI生成、使えない場合はテンプレートに
+    フォールバックする。誇張表現や扇情的な煽り文句は避け、
+    作品情報（ジャンル・価格・サークル・レビュー）に基づいた
+    落ち着いた紹介文にする。
+    """
+    if ANTHROPIC_API_KEY:
+        try:
+            return _get_article_body_from_api(product)
+        except Exception as e:
+            print(f'    ⚠️ AI記事生成エラー（テンプレート使用）: {e}')
+    return _get_article_body_template(product)
+
+
+def _get_article_body_from_api(product: dict) -> str:
+    genre_str = '・'.join(product['genres'][:5]) if product['genres'] else '不明'
+    review_str = (
+        f"平均{product['review_avg']}点（{product['review_count']}件のレビュー）"
+        if product.get('review_avg') and product.get('review_count')
+        else '不明'
+    )
+    prompt = (
+        "FANZA同人（成人向け）作品を紹介するはてなブログ記事の本文を、"
+        "はてな記法（見出しは大見出し*、中見出しは**）で書いてください。\n\n"
+        f"作品名: {product['title']}\n"
+        f"ジャンル: {genre_str}\n"
+        f"サークル: {product.get('maker') or '不明'}\n"
+        f"価格: {product.get('price') or '不明'}\n"
+        f"レビュー: {review_str}\n\n"
+        "条件:\n"
+        "- 250〜400文字程度\n"
+        "- 誇張・扇情的な煽り文句（『必見』『話題沸騰』等）は使わない\n"
+        "- 作品タイトルとジャンル・価格から素直に読み取れる範囲の紹介にとどめる\n"
+        "- 未成年を想起させる表現は一切使わない（成人向け作品であることを前提にする）\n"
+        "- 本文冒頭に本文用の見出し（* から始まる行）を1つ入れる\n"
+        "- 出力は本文のみ。前置きや説明は不要。"
+    )
+    resp = requests.post(
+        'https://api.anthropic.com/v1/messages',
+        headers={
+            'x-api-key': ANTHROPIC_API_KEY,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+        },
+        json={
+            'model': 'claude-haiku-4-5-20251001',
+            'max_tokens': 500,
+            'messages': [{'role': 'user', 'content': prompt}],
+        },
+        timeout=15,
+    )
+    data = resp.json()
+    text = data.get('content', [{}])[0].get('text', '').strip()
+    if not text:
+        raise ValueError('empty response')
+    return text
+
+
+def _get_article_body_template(product: dict) -> str:
+    genre_str = '、'.join(product['genres'][:5]) if product['genres'] else '不明'
+    lines = [
+        f"* {product['title']} について",
+        '',
+        f"ジャンル: {genre_str}",
+    ]
+    if product.get('maker'):
+        lines.append(f"サークル: {product['maker']}")
+    if product.get('price'):
+        lines.append(f"価格: {product['price']}")
+    if product.get('review_avg') and product.get('review_count'):
+        lines.append(f"レビュー: 平均{product['review_avg']}点（{product['review_count']}件）")
+    lines.append('')
+    lines.append('気になる方は下記の作品ページで詳細をご確認ください。')
+    return '\n'.join(lines)
+
+
+def build_article(product: dict) -> dict:
+    body_main = get_article_body_ai(product)
+    body_parts = [body_main, '']
+    if product.get('package_image'):
+        body_parts.append(f"[f:id:{HATENA_ID}:plain:{product['package_image']}]")
+        body_parts.append('')
+    body_parts.append(f"[{product['title']}]({product['affiliate_url']})")
+    body_parts.append('')
+    body_parts.append('※本記事はアフィリエイトプログラムによる収益を得ています。 #PR')
+    body_parts.append('※成人向けコンテンツを含みます。18歳未満の方はご利用いただけません。')
+
+    genre_categories = product['genres'][:5] if product['genres'] else []
+
+    return {
+        'title':      product['title'],
+        'body':       '\n'.join(body_parts),
+        'categories': genre_categories + ['FANZA同人', 'PR'],
+    }
+
+
+# ================================================================
+# 🔐 はてなブログ AtomPub 投稿（WSSE認証・下書き固定）
+# ================================================================
+
+def _wsse_header(username: str, api_key: str) -> str:
+    now = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    nonce_raw = os.urandom(16)
+    digest = hashlib.sha1(nonce_raw + now.encode('utf-8') + api_key.encode('utf-8')).digest()
+    return (
+        f'UsernameToken Username="{username}", '
+        f'PasswordDigest="{base64.b64encode(digest).decode()}", '
+        f'Nonce="{base64.b64encode(nonce_raw).decode()}", '
+        f'Created="{now}"'
+    )
+
+
+def post_draft_to_hatena(article: dict) -> bool:
+    endpoint = f'https://blog.hatena.ne.jp/{HATENA_ID}/{HATENA_BLOG_ID}/atom/entry'
+
+    categories_xml = ''.join(
+        f'<category term="{escape(c)}" />' for c in article['categories'] if c
+    )
+
+    entry_xml = f'''<?xml version="1.0" encoding="utf-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom"
+       xmlns:app="http://www.w3.org/2007/app">
+  <title>{escape(article['title'])}</title>
+  <author><name>{escape(HATENA_ID)}</name></author>
+  <content type="text/x-hatena-syntax">{escape(article['body'])}</content>
+  {categories_xml}
+  <app:control>
+    <app:draft>yes</app:draft>
+  </app:control>
+</entry>'''
+
+    headers = {
+        'Content-Type': 'application/atom+xml;type=entry',
+        'X-WSSE': _wsse_header(HATENA_ID, HATENA_API_KEY),
+    }
+
+    try:
+        resp = requests.post(endpoint, data=entry_xml.encode('utf-8'), headers=headers, timeout=15)
+        if resp.status_code in (200, 201):
+            print(f"    ✅ 下書き投稿成功: {article['title'][:40]}")
+            return True
+        else:
+            print(f"    ❌ 投稿失敗 status={resp.status_code}: {resp.text[:300]}")
+            return False
+    except Exception as e:
+        print(f"    ❌ 投稿エラー: {e}")
+        return False
+
+
+# ================================================================
+# 🚀 メイン実行
+# ================================================================
+
+def main():
+    raw_items = fetch_dmm_products()
+    if not raw_items:
+        print('❌ 商品が取得できませんでした。')
+        sys.exit(1)
+
+    products = [parse_product(item) for item in raw_items]
+
+    skipped = []
+    safe_products = []
+    for p in products:
+        ok, matched = is_safe(p)
+        if ok:
+            safe_products.append(p)
+        else:
+            skipped.append((p, matched))
+
+    print(f'🛡️ 安全フィルター適用: {len(products)}件 → 対象 {len(safe_products)}件 '
+          f'(除外 {len(skipped)}件)')
+
+    if skipped:
+        Path('outputs').mkdir(exist_ok=True)
+        ts = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        skip_path = Path('outputs') / f'skipped_{ts}.txt'
+        with open(skip_path, 'w', encoding='utf-8') as f:
+            f.write('# 年少者連想ワードにより除外された作品一覧\n\n')
+            for p, matched in skipped:
+                f.write(f"- {p['title']}\n  マッチ語: {', '.join(matched)}\n")
+        print(f'📄 除外ログ: {skip_path}')
+
+    safe_products = safe_products[:MAX_ARTICLES]
+
+    if not safe_products:
+        print('⚠️ 投稿対象の作品がありませんでした（フィルターで全件除外、または取得0件）。')
+        sys.exit(0)
+
+    posted = 0
+    for p in safe_products:
+        print(f"\n📝 記事生成中: {p['title'][:40]}")
+        article = build_article(p)
+        if post_draft_to_hatena(article):
+            posted += 1
+
+    print(f'\n✅ 完了！{posted}/{len(safe_products)} 件をはてなブログに下書き投稿しました。')
+    print('   ※ 公開前に必ず内容をご確認ください。')
+
+
+if __name__ == '__main__':
+    main()
