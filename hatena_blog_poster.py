@@ -75,6 +75,43 @@ print(f'📌 取得開始番号: {POST_START_INDEX}')
 FETCH_COUNT = int(os.environ.get('FETCH_COUNT', '20'))
 MAX_ARTICLES = int(os.environ.get('MAX_ARTICLES', '5'))  # 1回の実行で投稿する記事数の上限
 
+# 投稿済み作品の重複防止用履歴ファイル
+POSTED_HISTORY_FILE = Path(os.environ.get('POSTED_HISTORY_FILE', 'outputs/posted_history.json'))
+
+# ================================================================
+# 🗂️ 投稿履歴管理（重複投稿防止）
+# ================================================================
+
+def load_posted_history() -> set:
+    """過去に投稿済みの作品ID（content_id、無ければタイトル）の集合を読み込む。"""
+    if not POSTED_HISTORY_FILE.exists():
+        return set()
+    try:
+        import json
+        with open(POSTED_HISTORY_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return set(data.get('posted', []))
+    except Exception as e:
+        print(f'⚠️ 投稿履歴の読み込みに失敗しました（新規履歴として扱います）: {e}')
+        return set()
+
+
+def save_posted_history(history: set) -> None:
+    """投稿済みIDの集合を履歴ファイルに保存する。"""
+    import json
+    POSTED_HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with open(POSTED_HISTORY_FILE, 'w', encoding='utf-8') as f:
+            json.dump({'posted': sorted(history)}, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f'⚠️ 投稿履歴の保存に失敗しました: {e}')
+
+
+def product_history_key(product: dict) -> str:
+    """商品の重複判定キー。content_idがあればそれを、無ければタイトルを使う。"""
+    return product.get('content_id') or f"title:{product.get('title', '')}"
+
+
 # ================================================================
 # 🔧 DMM API 関連（既存スクリプトと同じロジックを踏襲）
 # ================================================================
@@ -105,6 +142,7 @@ def fetch_dmm_products():
 
 
 def parse_product(item):
+    content_id    = item.get('content_id', '') or item.get('product_id', '')
     title         = item.get('title', '')
     affiliate_url = item.get('affiliateURL', '') or item.get('URL', '')
     prices        = item.get('prices', {})
@@ -146,6 +184,7 @@ def parse_product(item):
             break
 
     return {
+        'content_id':    content_id,
         'title':         title,
         'affiliate_url': affiliate_url,
         'price':         price_str,
@@ -187,25 +226,33 @@ def _get_article_body_from_api(product: dict) -> dict:
         else '不明'
     )
     prompt = (
-        "FANZA同人（成人向け）作品を紹介するはてなブログ記事の本文材料を作成してください。\n\n"
+        "FANZA同人（成人向け）作品を紹介するはてなブログ記事の本文材料を作成してください。\n"
+        "読み手がクスッと笑いながら読み進め、最後には『これは買うしかない』と\n"
+        "思ってしまうような、ユーモアたっぷりで購買意欲を刺激する文章を書いてください。\n\n"
         f"作品名: {product['title']}\n"
         f"ジャンル: {genre_str}\n"
         f"サークル: {product.get('maker') or '不明'}\n"
         f"価格: {product.get('price') or '不明'}\n"
         f"レビュー: {review_str}\n\n"
         "条件:\n"
-        "- 誇張・扇情的な煽り文句（『必見』『話題沸騰』等）は使わない\n"
-        "- 作品タイトルとジャンル・価格から素直に読み取れる範囲の紹介にとどめる\n"
+        "- 文体はユーモラスで軽快に。読者にニヤッとしてもらえるような比喩・ツッコミ・\n"
+        "  軽い自虐やボケを交えてよい（下品・侮辱的にはしない）\n"
+        "- 『買わない理由が見当たらない』『気づいたらカートに入れている』のような、\n"
+        "  読者の背中を押す一言をOVERVIEWの締めに入れる\n"
+        "- ただし『業界No.1』『絶対』『必ず満足』など、検証不可能な断定・優良誤認の\n"
+        "  おそれがある表現（景品表示法に抵触しうる表現）は使わない\n"
         "- 未成年を想起させる表現は一切使わない（成人向け作品であることを前提にする）\n"
         "- OVERVIEWは作品タイトルを本文中で繰り返さない（タイトルは見出しに既に表示されている）。\n"
         "  代わりに、ジャンルから読み取れる「どんな魅力があるか」「どういうシチュエーション・\n"
-        "  関係性の話か」を、素直に想像できる範囲で自然な文章として書く\n"
+        "  関係性の話か」を、ユーモアを交えつつ自然な文章として書く\n"
         "- POINTSに価格やレビュー点数など数値情報は含めない（別欄に表示済みのため）\n"
         "- POINTSは『○○要素が中心のストーリー』のような機械的な言い回しを使わない。\n"
-        "  各ジャンル・特徴が読者にとってどう楽しめる要素なのかを、項目ごとに違う言い回しで自然な文にする\n"
+        "  各ジャンル・特徴が読者にとってどう楽しめる要素なのかを、ユーモアを効かせつつ\n"
+        "  項目ごとに違う言い回しで、思わず読みたくなる一文にする\n"
         "- 出力は必ず次のプレーンテキスト形式のみ。前置きや説明・Markdown記法は禁止。\n\n"
         "===OVERVIEW===\n"
-        "(150〜250文字程度で作品の魅力・シチュエーションを1〜2段落。段落間は空行で区切る)\n"
+        "(150〜250文字程度で作品の魅力・シチュエーションを1〜2段落、ユーモアを交えて。\n"
+        "段落間は空行で区切る)\n"
         "===POINTS===\n"
         "(「ここがポイント」として3〜4個、1行1項目、先頭に「- 」を付ける)\n"
     )
@@ -241,10 +288,16 @@ def _get_article_body_from_api(product: dict) -> dict:
 
 
 _GENRE_POINT_TEMPLATES = [
-    '{g}が好きな方に楽しめる内容です',
-    '{g}をテーマにした場面が描かれています',
-    '{g}の要素が味わえる一作です',
-    '{g}好きにおすすめできる仕上がりです',
+    '{g}好きなら、うっかり夜更かし確定の内容です',
+    '{g}成分が気になる方は、もう指がカートに伸びているはず',
+    '{g}のツボを心得た一作。油断してると即決してしまいます',
+    '{g}好きにこっそり教えたい、隠れた掘り出し物です',
+]
+
+_OVERVIEW_CLOSERS = [
+    '気づいたら作品ページを開いている……そんな自分に気づいても、責めないであげてください。',
+    '買う理由を探すより、買わない理由を探す方が難しい一作です。',
+    '迷っている時間があるなら、その時間でもう読み終わっているかもしれません。',
 ]
 
 
@@ -252,19 +305,27 @@ def _get_article_body_template(product: dict) -> dict:
     genre_str = '、'.join(product['genres'][:5]) if product['genres'] else '不明'
     overview = f"{genre_str}系の同人作品です。"
     if product.get('maker'):
-        overview += f" サークルは{product['maker']}。"
-    overview += "\n\n気になる方は下記の作品ページで詳細をご確認ください。"
+        overview += f" 手がけるのは{product['maker']}。"
+    closer = _OVERVIEW_CLOSERS_PICK(product)
+    overview += f"\n\n{closer}"
 
     points = []
     for i, g in enumerate((product.get('genres') or [])[:3]):
         tmpl = _GENRE_POINT_TEMPLATES[i % len(_GENRE_POINT_TEMPLATES)]
         points.append(tmpl.format(g=g))
     if product.get('review_avg') and product.get('review_count'):
-        points.append(f"レビュー平均{product['review_avg']}点（{product['review_count']}件）")
+        points.append(f"レビュー平均{product['review_avg']}点（{product['review_count']}件）と、みんなも太鼓判")
     if not points:
-        points = ['作品ページで詳細をチェック']
+        points = ['作品ページを開いた時点で、もう半分ハマっています']
 
     return {'overview': overview, 'points': points[:4]}
+
+
+def _OVERVIEW_CLOSERS_PICK(product: dict) -> str:
+    """作品ID等を種にして毎回同じ文にならないよう決定的にローテーションする。"""
+    key = product.get('content_id') or product.get('title') or ''
+    idx = sum(ord(c) for c in key) % len(_OVERVIEW_CLOSERS) if key else 0
+    return _OVERVIEW_CLOSERS[idx]
 
 
 def _paragraphs_to_html(text: str) -> str:
@@ -469,7 +530,7 @@ def post_draft_to_hatena(article: dict) -> bool:
   <content type="text/html">{escape(article['body'])}</content>
   {categories_xml}
   <app:control>
-    <app:draft>no</app:draft>
+    <app:draft>yes</app:draft>
   </app:control>
 </entry>'''
 
@@ -525,10 +586,17 @@ def main():
                 f.write(f"- {p['title']}\n  マッチ語: {', '.join(matched)}\n")
         print(f'📄 除外ログ: {skip_path}')
 
-    safe_products = safe_products[:MAX_ARTICLES]
+    # 過去に紹介済みの作品を除外
+    posted_history = load_posted_history()
+    new_products = [p for p in safe_products if product_history_key(p) not in posted_history]
+    skipped_dup_count = len(safe_products) - len(new_products)
+    print(f'🔁 重複チェック: {len(safe_products)}件 → 新規 {len(new_products)}件 '
+          f'(過去紹介済みのため除外 {skipped_dup_count}件)')
+
+    safe_products = new_products[:MAX_ARTICLES]
 
     if not safe_products:
-        print('⚠️ 投稿対象の作品がありませんでした（フィルターで全件除外、または取得0件）。')
+        print('⚠️ 投稿対象の作品がありませんでした（フィルター/重複除外で全件除外、または取得0件）。')
         sys.exit(0)
 
     posted = 0
@@ -537,8 +605,12 @@ def main():
         article = build_article(p)
         if post_draft_to_hatena(article):
             posted += 1
+            # 投稿成功のたびに履歴へ追加して即保存（途中で中断しても重複を防ぐ）
+            posted_history.add(product_history_key(p))
+            save_posted_history(posted_history)
 
     print(f'\n✅ 完了！{posted}/{len(safe_products)} 件をはてなブログに下書き投稿しました。')
+    print(f'   📚 累計投稿履歴: {len(posted_history)}件（{POSTED_HISTORY_FILE}）')
     print('   ※ 公開前に必ず内容をご確認ください。')
 
 
