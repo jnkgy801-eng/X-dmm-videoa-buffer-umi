@@ -403,7 +403,6 @@ def build_article(product: dict) -> dict:
 
     disclaimer_html = (
         '<p style="color:#999;font-size:12px;line-height:1.6;margin-top:16px;">'
-        '※本記事はアフィリエイトプログラムによる収益を得ています。#PR<br>'
         '※成人向けコンテンツを含みます。18歳未満の方はご利用いただけません。</p>'
     )
 
