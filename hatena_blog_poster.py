@@ -228,59 +228,110 @@ def _paragraphs_to_html(text: str) -> str:
     for p in paragraphs:
         # 段落内の単一改行は <br> に変換
         p_html = escape(p).replace('\n', '<br>')
-        html_parts.append(f'<p>{p_html}</p>')
+        html_parts.append(
+            f'<p style="line-height:1.8;color:#333;margin:0 0 12px;">{p_html}</p>'
+        )
     return '\n'.join(html_parts)
+
+
+_BADGE_COLORS = ['#ff6f91', '#ff9671', '#845ec2', '#4b93ff', '#00c2a8']
+
+
+def _genre_badges_html(genres: list) -> str:
+    if not genres:
+        return ''
+    badges = []
+    for i, g in enumerate(genres[:5]):
+        color = _BADGE_COLORS[i % len(_BADGE_COLORS)]
+        badges.append(
+            f'<span style="display:inline-block;background:{color};color:#fff;'
+            'padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;'
+            f'margin:2px 4px 2px 0;">{escape(g)}</span>'
+        )
+    return f'<div style="margin:8px 0;">{"".join(badges)}</div>'
+
+
+def _star_rating_html(avg, count) -> str:
+    if not avg or not count:
+        return ''
+    filled = max(0, min(5, round(avg)))
+    stars = '★' * filled + '☆' * (5 - filled)
+    return (
+        '<div style="margin:6px 0;">'
+        f'<span style="color:#f5a623;font-size:18px;letter-spacing:1px;">{stars}</span> '
+        f'<span style="color:#888;font-size:13px;">{avg}点（{count}件のレビュー）</span>'
+        '</div>'
+    )
 
 
 def build_article(product: dict) -> dict:
     body_main_html = _paragraphs_to_html(get_article_body_ai(product))
+    genre_badges_html = _genre_badges_html(product.get('genres', []))
+    star_html = _star_rating_html(product.get('review_avg'), product.get('review_count'))
 
-    info_rows = []
-    genre_str = '、'.join(product['genres'][:5]) if product['genres'] else ''
-    if genre_str:
-        info_rows.append(f'<tr><th>ジャンル</th><td>{escape(genre_str)}</td></tr>')
+    meta_line_parts = []
     if product.get('maker'):
-        info_rows.append(f'<tr><th>サークル</th><td>{escape(product["maker"])}</td></tr>')
-    if product.get('price'):
-        info_rows.append(f'<tr><th>価格</th><td>{escape(product["price"])}</td></tr>')
-    if product.get('review_avg') and product.get('review_count'):
-        info_rows.append(
-            f'<tr><th>レビュー</th><td>平均{product["review_avg"]}点'
-            f'（{product["review_count"]}件）</td></tr>'
+        meta_line_parts.append(f'サークル: {escape(product["maker"])}')
+    meta_line_html = ''
+    if meta_line_parts:
+        meta_line_html = (
+            '<div style="color:#666;font-size:13px;margin:4px 0 10px;">'
+            + ' ／ '.join(meta_line_parts) + '</div>'
         )
-    info_table = ''
-    if info_rows:
-        info_table = f'<table>{"".join(info_rows)}</table>'
 
     image_html = ''
     if product.get('package_image'):
         img_url = escape(product['package_image'])
         image_html = (
-            f'<p><a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow">'
+            f'<a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow">'
             f'<img src="{img_url}" alt="{escape(product["title"])}" loading="lazy" '
-            f'style="max-width:100%;height:auto;"></a></p>'
+            'style="width:100%;max-width:560px;height:auto;border-radius:10px;'
+            'display:block;margin:0 auto 16px;box-shadow:0 2px 10px rgba(0,0,0,0.12);">'
+            '</a>'
+        )
+
+    price_badge_html = ''
+    if product.get('price'):
+        price_badge_html = (
+            '<div style="display:inline-block;background:#fff0f5;color:#e0507a;'
+            'border:1px solid #ffc2d6;border-radius:8px;padding:6px 14px;'
+            f'font-size:15px;font-weight:bold;margin:10px 0;">価格 {escape(product["price"])}</div>'
         )
 
     cta_html = (
-        f'<p><a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow" '
-        'style="display:inline-block;padding:10px 20px;background:#e0507a;color:#fff;'
-        'text-decoration:none;border-radius:4px;">作品ページを見る</a></p>'
+        f'<div style="text-align:center;margin:20px 0 8px;">'
+        f'<a href="{escape(product["affiliate_url"])}" target="_blank" rel="nofollow" '
+        'style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#ff6f91,#e0507a);'
+        'color:#fff;text-decoration:none;border-radius:999px;font-size:16px;font-weight:bold;'
+        'box-shadow:0 4px 12px rgba(224,80,122,0.35);">'
+        '▶ 作品ページを見る</a></div>'
     )
 
     disclaimer_html = (
-        '<p><small>※本記事はアフィリエイトプログラムによる収益を得ています。#PR<br>'
-        '※成人向けコンテンツを含みます。18歳未満の方はご利用いただけません。</small></p>'
+        '<p style="color:#999;font-size:12px;line-height:1.6;margin-top:16px;">'
+        '※本記事はアフィリエイトプログラムによる収益を得ています。#PR<br>'
+        '※成人向けコンテンツを含みます。18歳未満の方はご利用いただけません。</p>'
     )
 
-    body_html = '\n'.join(
+    card_inner = '\n'.join(
         part for part in [
-            f'<h3>{escape(product["title"])}</h3>',
             image_html,
-            body_main_html,
-            info_table,
+            f'<h3 style="margin:0 0 6px;font-size:20px;line-height:1.4;">{escape(product["title"])}</h3>',
+            meta_line_html,
+            genre_badges_html,
+            star_html,
+            price_badge_html,
+            f'<div style="margin-top:14px;">{body_main_html}</div>',
             cta_html,
             disclaimer_html,
         ] if part
+    )
+
+    body_html = (
+        '<div style="max-width:600px;margin:0 auto;padding:20px;border:1px solid #eee;'
+        'border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);font-family:'
+        '-apple-system,BlinkMacSystemFont,\'Hiragino Sans\',sans-serif;">'
+        f'{card_inner}</div>'
     )
 
     genre_categories = product['genres'][:5] if product['genres'] else []
