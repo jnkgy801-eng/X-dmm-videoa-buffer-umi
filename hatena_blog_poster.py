@@ -457,7 +457,7 @@ def post_draft_to_hatena(article: dict) -> bool:
   <content type="text/html">{escape(article['body'])}</content>
   {categories_xml}
   <app:control>
-    <app:draft>yes</app:draft>
+    <app:draft>no</app:draft>
   </app:control>
 </entry>'''
 
