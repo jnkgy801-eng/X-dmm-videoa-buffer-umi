@@ -197,9 +197,15 @@ def _get_article_body_from_api(product: dict) -> dict:
         "- 誇張・扇情的な煽り文句（『必見』『話題沸騰』等）は使わない\n"
         "- 作品タイトルとジャンル・価格から素直に読み取れる範囲の紹介にとどめる\n"
         "- 未成年を想起させる表現は一切使わない（成人向け作品であることを前提にする）\n"
+        "- OVERVIEWは作品タイトルを本文中で繰り返さない（タイトルは見出しに既に表示されている）。\n"
+        "  代わりに、ジャンルから読み取れる「どんな魅力があるか」「どういうシチュエーション・\n"
+        "  関係性の話か」を、素直に想像できる範囲で自然な文章として書く\n"
+        "- POINTSに価格やレビュー点数など数値情報は含めない（別欄に表示済みのため）\n"
+        "- POINTSは『○○要素が中心のストーリー』のような機械的な言い回しを使わない。\n"
+        "  各ジャンル・特徴が読者にとってどう楽しめる要素なのかを、項目ごとに違う言い回しで自然な文にする\n"
         "- 出力は必ず次のプレーンテキスト形式のみ。前置きや説明・Markdown記法は禁止。\n\n"
         "===OVERVIEW===\n"
-        "(150〜250文字程度で作品概要を1〜2段落。段落間は空行で区切る)\n"
+        "(150〜250文字程度で作品の魅力・シチュエーションを1〜2段落。段落間は空行で区切る)\n"
         "===POINTS===\n"
         "(「ここがポイント」として3〜4個、1行1項目、先頭に「- 」を付ける)\n"
     )
@@ -234,18 +240,25 @@ def _get_article_body_from_api(product: dict) -> dict:
     return {'overview': overview_part, 'points': points[:4]}
 
 
+_GENRE_POINT_TEMPLATES = [
+    '{g}が好きな方に楽しめる内容です',
+    '{g}をテーマにした場面が描かれています',
+    '{g}の要素が味わえる一作です',
+    '{g}好きにおすすめできる仕上がりです',
+]
+
+
 def _get_article_body_template(product: dict) -> dict:
     genre_str = '、'.join(product['genres'][:5]) if product['genres'] else '不明'
-    overview = f"{product['title']} は{genre_str}系の同人作品です。"
+    overview = f"{genre_str}系の同人作品です。"
     if product.get('maker'):
         overview += f" サークルは{product['maker']}。"
     overview += "\n\n気になる方は下記の作品ページで詳細をご確認ください。"
 
     points = []
-    for g in (product.get('genres') or [])[:3]:
-        points.append(f"{g}要素が中心のストーリー")
-    if product.get('price'):
-        points.append(f"価格は{product['price']}")
+    for i, g in enumerate((product.get('genres') or [])[:3]):
+        tmpl = _GENRE_POINT_TEMPLATES[i % len(_GENRE_POINT_TEMPLATES)]
+        points.append(tmpl.format(g=g))
     if product.get('review_avg') and product.get('review_count'):
         points.append(f"レビュー平均{product['review_avg']}点（{product['review_count']}件）")
     if not points:
@@ -457,7 +470,7 @@ def post_draft_to_hatena(article: dict) -> bool:
   <content type="text/html">{escape(article['body'])}</content>
   {categories_xml}
   <app:control>
-    <app:draft>no</app:draft>
+    <app:draft>yes</app:draft>
   </app:control>
 </entry>'''
 
