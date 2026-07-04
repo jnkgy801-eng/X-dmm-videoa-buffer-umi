@@ -24,7 +24,6 @@ import os
 import sys
 import base64
 import hashlib
-import random
 import datetime
 import requests
 from pathlib import Path
@@ -61,19 +60,22 @@ DMM_API_BASE = 'https://api.dmm.com/affiliate/v3'
 SERVICE = 'doujin'
 FLOOR   = 'digital_doujin'
 
-DMM_SORT_MODE = os.environ.get('DMM_SORT_MODE', 'date').lower()
+DMM_SORT_MODE = os.environ.get('DMM_SORT_MODE', 'rank').lower()
 SORT_TARGETS = {'date': '-date', 'rank': '-rank'}
-SORT_KEY = SORT_TARGETS.get(DMM_SORT_MODE, '-date')
+SORT_KEY = SORT_TARGETS.get(DMM_SORT_MODE, '-rank')
 
 _raw_start = os.environ.get('POST_START_INDEX', '')
 if _raw_start.strip().isdigit():
-    POST_START_INDEX = int(_raw_start.strip())
+    START_OFFSET = int(_raw_start.strip())
 else:
-    POST_START_INDEX = random.randint(1, 480)
-print(f'📌 取得開始番号: {POST_START_INDEX}')
+    START_OFFSET = 1
+print(f'📌 取得開始番号: {START_OFFSET}（{SORT_KEY}順）')
 
-FETCH_COUNT = int(os.environ.get('FETCH_COUNT', '20'))
+FETCH_COUNT = int(os.environ.get('FETCH_COUNT', '100'))
 MAX_ARTICLES = int(os.environ.get('MAX_ARTICLES', '5'))  # 1回の実行で投稿する記事数の上限
+# 5件（MAX_ARTICLES）に届くまでoffsetを進めて検索を続ける上限ページ数
+# （重複・除外分を差し引いても5件揃わない場合に無限ループしないための安全装置）
+MAX_FETCH_PAGES = int(os.environ.get('MAX_FETCH_PAGES', '10'))
 
 # 投稿済み作品の重複防止用履歴ファイル
 POSTED_HISTORY_FILE = Path(os.environ.get('POSTED_HISTORY_FILE', 'outputs/posted_history.json'))
@@ -116,7 +118,7 @@ def product_history_key(product: dict) -> str:
 # 🔧 DMM API 関連（既存スクリプトと同じロジックを踏襲）
 # ================================================================
 
-def fetch_dmm_products():
+def fetch_dmm_products(offset: int):
     params = {
         'api_id':       DMM_API_ID,
         'affiliate_id': DMM_AFFILIATE_ID,
@@ -124,7 +126,7 @@ def fetch_dmm_products():
         'service':      SERVICE,
         'floor':        FLOOR,
         'hits':         FETCH_COUNT,
-        'offset':       POST_START_INDEX,
+        'offset':       offset,
         'sort':         SORT_KEY,
         'output':       'json',
     }
@@ -134,10 +136,10 @@ def fetch_dmm_products():
         items = data.get('result', {}).get('items', [])
         if isinstance(items, dict):
             items = items.get('item', [])
-        print(f'✅ DMM APIから {len(items)} 件取得しました。')
+        print(f'✅ DMM APIから {len(items)} 件取得しました（offset={offset}）。')
         return items
     except Exception as e:
-        print(f'❌ DMM APIエラー: {e}')
+        print(f'❌ DMM APIエラー（offset={offset}）: {e}')
         return []
 
 
@@ -557,47 +559,67 @@ def post_draft_to_hatena(article: dict) -> bool:
 # ================================================================
 
 def main():
-    raw_items = fetch_dmm_products()
-    if not raw_items:
-        print('❌ 商品が取得できませんでした。')
-        sys.exit(1)
+    posted_history = load_posted_history()
+    print(f'📚 投稿済み履歴: {len(posted_history)}件')
 
-    products = [parse_product(item) for item in raw_items]
+    safe_products = []       # 投稿対象（rank順を維持）
+    seen_in_run = set()      # 今回の実行内での重複防止
+    all_skipped = []
+    offset = START_OFFSET
 
-    skipped = []
-    safe_products = []
-    for p in products:
-        ok, matched = is_safe(p)
-        if ok:
-            safe_products.append(p)
-        else:
-            skipped.append((p, matched))
+    for page in range(1, MAX_FETCH_PAGES + 1):
+        if len(safe_products) >= MAX_ARTICLES:
+            break
 
-    print(f'🛡️ 安全フィルター適用: {len(products)}件 → 対象 {len(safe_products)}件 '
-          f'(除外 {len(skipped)}件)')
+        print(f'\n🔎 [{page}/{MAX_FETCH_PAGES}ページ目] {SORT_KEY}順で取得中 '
+              f'(offset={offset}, hits={FETCH_COUNT})...')
+        raw_items = fetch_dmm_products(offset)
+        if not raw_items:
+            print('  ⚠️ これ以上取得できませんでした。検索を打ち切ります。')
+            break
 
-    if skipped:
+        for item in raw_items:
+            if len(safe_products) >= MAX_ARTICLES:
+                break
+
+            product = parse_product(item)
+            key = product_history_key(product)
+
+            # 1. 過去に紹介済みならスキップ（重複防止）
+            if key in posted_history or key in seen_in_run:
+                continue
+
+            # 2. 年少者連想ワードを含む場合はスキップ（安全フィルター）
+            ok, matched = is_safe(product)
+            if not ok:
+                all_skipped.append((product, matched))
+                continue
+
+            seen_in_run.add(key)
+            safe_products.append(product)
+
+        offset += FETCH_COUNT
+
+    print(f'\n📊 検索結果: {len(safe_products)}/{MAX_ARTICLES}件 集まりました '
+          f'（安全フィルター除外 {len(all_skipped)}件）')
+
+    if all_skipped:
         Path('outputs').mkdir(exist_ok=True)
         ts = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
         skip_path = Path('outputs') / f'skipped_{ts}.txt'
         with open(skip_path, 'w', encoding='utf-8') as f:
             f.write('# 年少者連想ワードにより除外された作品一覧\n\n')
-            for p, matched in skipped:
+            for p, matched in all_skipped:
                 f.write(f"- {p['title']}\n  マッチ語: {', '.join(matched)}\n")
         print(f'📄 除外ログ: {skip_path}')
-
-    # 過去に紹介済みの作品を除外
-    posted_history = load_posted_history()
-    new_products = [p for p in safe_products if product_history_key(p) not in posted_history]
-    skipped_dup_count = len(safe_products) - len(new_products)
-    print(f'🔁 重複チェック: {len(safe_products)}件 → 新規 {len(new_products)}件 '
-          f'(過去紹介済みのため除外 {skipped_dup_count}件)')
-
-    safe_products = new_products[:MAX_ARTICLES]
 
     if not safe_products:
         print('⚠️ 投稿対象の作品がありませんでした（フィルター/重複除外で全件除外、または取得0件）。')
         sys.exit(0)
+
+    if len(safe_products) < MAX_ARTICLES:
+        print(f'⚠️ {MAX_FETCH_PAGES}ページ検索しましたが{MAX_ARTICLES}件に届きませんでした。'
+              f'集まった{len(safe_products)}件のみ投稿します。')
 
     posted = 0
     for p in safe_products:
