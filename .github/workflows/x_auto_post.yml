@@ -1,0 +1,67 @@
+name: FANZA同人 → X 自動投稿（1時間ごと）
+
+on:
+  schedule:
+    # 毎時0分に実行（UTC基準。1時間に1回）
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    inputs:
+      posts_per_run:
+        description: '1回の実行で投稿する件数'
+        required: false
+        default: '5'
+        type: string
+      dmm_floor:
+        description: 'DMMフロア'
+        required: false
+        default: 'doujin'
+        type: choice
+        options:
+          - doujin
+          - videoa
+          - videoc
+          - anime
+          - comic
+
+concurrency:
+  # 前回の実行が長引いていても、次のcronと重複起動しないようにする
+  group: x-auto-post
+  cancel-in-progress: false
+
+jobs:
+  post-to-x:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v3
+
+      - name: Pythonのセットアップ
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 依存ライブラリのインストール
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests requests_oauthlib
+
+      - name: Xへ自動投稿（rank上位・重複除外・5件になるまで検索）
+        env:
+          DMM_API_ID:            ${{ secrets.DMM_API_ID }}
+          DMM_AFFILIATE_ID:      ${{ secrets.DMM_AFFILIATE_ID }}
+          X_API_KEY:             ${{ secrets.X_API_KEY }}
+          X_API_SECRET:          ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN:        ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          ANTHROPIC_API_KEY:     ${{ secrets.ANTHROPIC_API_KEY }}
+          DMM_FLOOR:             ${{ github.event.inputs.dmm_floor || 'doujin' }}
+          POSTS_PER_RUN:         ${{ github.event.inputs.posts_per_run || '5' }}
+        run: python dmm_x_auto_poster.py
+
+      - name: 投稿履歴・除外ログをリポジトリにコミット
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add outputs/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 X自動投稿 履歴更新 ($(date +'%Y-%m-%d %H:%M:%S'))" && git push)
