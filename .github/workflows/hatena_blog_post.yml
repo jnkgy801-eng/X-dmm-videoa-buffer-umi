@@ -1,26 +1,29 @@
-name: FANZA同人 → はてなブログ 下書き生成
+name: FANZA同人 → はてなブログ 下書き生成（1時間ごと）
 
 on:
+  schedule:
+    # 毎時0分に実行（UTC基準。1時間に1回）
+    - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
-      post_start_index:
-        description: '取得開始番号（空欄でランダム自動設定）'
-        required: false
-        default: ''
-        type: string
       dmm_sort_mode:
         description: 'ソートモード'
         required: false
-        default: 'date'
+        default: 'rank'
         type: choice
         options:
-          - date   # 新着順
           - rank   # 人気順
+          - date   # 新着順
       max_articles:
         description: '1回の実行で下書き投稿する記事数の上限'
         required: false
         default: '5'
         type: string
+
+concurrency:
+  # 前回の実行が長引いていても、次のcronと重複起動しないようにする
+  group: hatena-blog-post
+  cancel-in-progress: false
 
 jobs:
   post-drafts:
@@ -40,18 +43,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: 取得開始番号の設定（空欄ならランダム）
-        id: set_start_index
-        run: |
-          INPUT="${{ github.event.inputs.post_start_index }}"
-          if [ -z "$INPUT" ]; then
-            RAND=$(python3 -c "import random; print(random.randint(1, 480))")
-            echo "start_index=$RAND" >> $GITHUB_OUTPUT
-          else
-            echo "start_index=$INPUT" >> $GITHUB_OUTPUT
-          fi
-
-      - name: はてなブログへ下書き投稿
+      - name: はてなブログへ下書き投稿（rank上位・重複除外・5件になるまで検索）
         env:
           DMM_API_ID:        ${{ secrets.DMM_API_ID }}
           DMM_AFFILIATE_ID:  ${{ secrets.DMM_AFFILIATE_ID }}
@@ -59,14 +51,13 @@ jobs:
           HATENA_BLOG_ID:    ${{ secrets.HATENA_BLOG_ID }}
           HATENA_API_KEY:    ${{ secrets.HATENA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          POST_START_INDEX:  ${{ steps.set_start_index.outputs.start_index }}
-          DMM_SORT_MODE:     ${{ github.event.inputs.dmm_sort_mode || 'date' }}
+          DMM_SORT_MODE:     ${{ github.event.inputs.dmm_sort_mode || 'rank' }}
           MAX_ARTICLES:      ${{ github.event.inputs.max_articles || '5' }}
         run: python hatena_blog_poster.py
 
-      - name: 除外ログをリポジトリにコミット
+      - name: 投稿履歴・除外ログをリポジトリにコミット
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add outputs/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 除外ログ更新 ($(date +'%Y-%m-%d %H:%M:%S'))" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 はてな自動投稿 履歴更新 ($(date +'%Y-%m-%d %H:%M:%S'))" && git push)
