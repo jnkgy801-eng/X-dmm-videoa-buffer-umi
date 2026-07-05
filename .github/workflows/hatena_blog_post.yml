@@ -3,7 +3,7 @@ name: FANZA同人 → はてなブログ 下書き生成（1時間ごと）
 on:
   schedule:
     # 毎時0分に実行（UTC基準。1時間に1回）
-    - cron: '0 * * * *'
+    - cron: '37 * * * *'
   workflow_dispatch:
     inputs:
       dmm_sort_mode:
