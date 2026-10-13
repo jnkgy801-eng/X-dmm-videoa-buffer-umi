@@ -5,7 +5,7 @@
     "text": "「お世話になっております」の次の一文で悩む時間、AIに任せてOK。\n\n下書きはAI、最後の一言だけ自分で書く。これが一番速くて、ちゃんと自分の文章になります。",
     "card": null,
     "due": "2026-10-13T07:30",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -17,7 +17,7 @@
       "body": "「以下のメールへの返信案を作って。結論→理由→次のアクションの順で、3行以内。丁寧だけど簡潔に」"
     },
     "due": "2026-10-13T12:15",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -26,7 +26,7 @@
     "text": "仕事のメールで、一番時間がかかるのはどれですか？\n\n①断りの返信 ②お詫び ③お願い ④催促\n\n番号で教えてください。その型のプロンプトを作ります。",
     "card": null,
     "due": "2026-10-13T19:00",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -38,7 +38,7 @@
       "body": "① 「もっと短く」より「半分の文字数で」\n② 「丁寧に」より「取引先の部長宛て」\n③ 「直して」より「直した箇所を一覧で」"
     },
     "due": "2026-10-13T21:45",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -47,7 +47,7 @@
     "text": "催促メール、書きにくいですよね。\n\nAIに「角が立たない催促文を3パターン」と頼むと、強さ違いで出てきます。選ぶだけで済みます。",
     "card": null,
     "due": "2026-10-14T07:30",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -68,8 +68,8 @@
     "text": "上司やお客さんへの「断り」メール、AIに頼むのはアリ？ナシ？\n\n私は「下書きはAI、最終確認は自分」ならアリ派です。みなさんはどうですか？",
     "card": null,
     "due": "2026-10-14T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec53cb610c3011f939f74"
   },
   {
     "id": "202610142145",
@@ -89,8 +89,8 @@
     "text": "資料づくりは、いきなりスライドを作らない。\n\n先にAIに「構成案だけ」を作らせる。構成が決まれば、中身は驚くほど早く埋まります。",
     "card": null,
     "due": "2026-10-15T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec53d1f3f10bcb7a53dd8"
   },
   {
     "id": "202610151215",
@@ -110,8 +110,8 @@
     "text": "長い記事、最後まで読まずに閉じること、ありますよね？\n\nAIに要約させると時間は減りますが、「元を読むべきか」の判断が難しくなるのが難点。みなさんはどうしてますか？",
     "card": null,
     "due": "2026-10-15T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec53d33507eb5b0e47ac9"
   },
   {
     "id": "202610152145",
@@ -131,8 +131,8 @@
     "text": "長文は「要約させてから読む」が正解。\n\nAIの要約で全体像をつかんでから本文を読むと、理解が速くなります。要約だけで終わらせないのがコツです。",
     "card": null,
     "due": "2026-10-16T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec53e33507eb5b0e47b1b"
   },
   {
     "id": "202610161215",
@@ -152,8 +152,8 @@
     "text": "調べものに、AIと検索、どっちを先に使いますか？\n\n私は「全体像はAI、最新情報と数字は検索」の順です。違う人はリプで教えてください。",
     "card": null,
     "due": "2026-10-16T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec53f1f3f10bcb7a53ead"
   },
   {
     "id": "202610162145",
@@ -173,8 +173,8 @@
     "text": "調べものの最初の一手は「〇〇の全体像を教えて」で十分。\n\n知らない分野ほど、いきなり細部を聞かない。地図を先にもらいましょう。",
     "card": null,
     "due": "2026-10-17T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec53fb610c3011f93a0b6"
   },
   {
     "id": "202610171215",
@@ -194,8 +194,8 @@
     "text": "「AIに聞いたけど違った」経験、ありますか？\n\nあるなら、どんな場面でした？数字・固有名詞・最新情報あたりが多い気がしています。",
     "card": null,
     "due": "2026-10-17T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec54033507eb5b0e47bb3"
   },
   {
     "id": "202610172145",
@@ -215,8 +215,8 @@
     "text": "勉強は「教わる」より「説明する」ほうが身につく。\n\nAIに先生役ではなく、生徒役をやってもらう。自分の説明を聞かせると、穴がすぐ見つかります。",
     "card": null,
     "due": "2026-10-18T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec5410d20fd152771af34"
   },
   {
     "id": "202610181215",
@@ -236,8 +236,8 @@
     "text": "勉強したことを「人に説明する」機会、ありますか？\n\n相手がいなくても、AIに聞いてもらえば代わりになります。最近学んだことは何ですか？",
     "card": null,
     "due": "2026-10-18T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec54133507eb5b0e47bfa"
   },
   {
     "id": "202610182145",
@@ -257,8 +257,8 @@
     "text": "資格勉強の最初の1歩。\n\nAIに「試験範囲を重要度順に並べて」と頼むと、どこから手をつけるか決まります。最終的には公式の試験範囲で確認を。",
     "card": null,
     "due": "2026-10-19T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6acec542b610c3011f93a163"
   },
   {
     "id": "202610191215",
