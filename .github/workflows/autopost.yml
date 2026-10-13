@@ -1,0 +1,44 @@
+name: autopost
+on:
+  schedule:
+    - cron: "0 21 * * *"   # 毎日 06:00 JST に不足分を補充・予約
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+      BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+      - run: pip install -r requirements.txt
+
+      # ANTHROPIC_API_KEY が無ければ生成はスキップ（キューの残りだけ投稿）
+      - name: generate
+        if: env.ANTHROPIC_API_KEY != ''
+        run: python autopost.py generate
+
+      - run: python autopost.py render
+
+      # 画像を先に公開(push)してから、BufferへURL付きで予約する
+      - name: publish images
+        run: |
+          git config user.name "autopost-bot"
+          git config user.email "autopost-bot@users.noreply.github.com"
+          git add images queue.json
+          git diff --cached --quiet || (git commit -m "chore: add images" && git push)
+
+      - run: python autopost.py schedule
+
+      - name: save queue
+        run: |
+          git add queue.json
+          git diff --cached --quiet || (git commit -m "chore: update queue" && git push)
