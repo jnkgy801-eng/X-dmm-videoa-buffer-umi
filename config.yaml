@@ -16,7 +16,7 @@ slots:
 max_scheduled_in_buffer: 10
 # 画像の公開URLのベース（GitHubの公開リポジトリのrawを想定）
 # 例: https://raw.githubusercontent.com/<ユーザー名>/<リポジトリ名>/main/images
-image_base_url: "https://raw.githubusercontent.com/YOUR_NAME/YOUR_REPO/main/images"
+image_base_url: "https://raw.githubusercontent.com/jnkgy801-eng/X-dmm-videoa-buffer-umi/main/images"
 
 # --- 自動生成（任意。ANTHROPIC_API_KEY が必要） ---
 generate:
