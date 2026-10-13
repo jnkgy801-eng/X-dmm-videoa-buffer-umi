@@ -1,0 +1,26 @@
+# --- アカウント設定 ---
+account_name: "きらり|AI時短メモ"
+handle: "@kirari187"
+timezone: "Asia/Tokyo"
+
+# 投稿スロット（アルゴリズム上、初動の反応が取りやすい朝・昼・夜）
+# 種別: M=短い気づき / N=コピペ用プロンプト(画像付き) / E=問いかけ(返信誘導) / S=保存版まとめ(画像付き)
+slots:
+  - { time: "07:30", kind: "M" }
+  - { time: "12:15", kind: "N" }
+  - { time: "19:00", kind: "E" }
+  - { time: "21:45", kind: "S" }
+
+# --- Buffer ---
+# 無料プランは予約枠に上限があるため、Buffer側に同時に積む件数を制限する
+max_scheduled_in_buffer: 10
+# 画像の公開URLのベース（GitHubの公開リポジトリのrawを想定）
+# 例: https://raw.githubusercontent.com/<ユーザー名>/<リポジトリ名>/main/images
+image_base_url: "https://raw.githubusercontent.com/YOUR_NAME/YOUR_REPO/main/images"
+
+# --- 自動生成（任意。ANTHROPIC_API_KEY が必要） ---
+generate:
+  model: "claude-sonnet-5-5"
+  min_pending: 8        # 未予約の投稿がこれを下回ったら補充
+  batch_days: 7         # 補充時に何日分作るか
+  theme: "生成AIを使った仕事・勉強・日常の時短術（コピペで使えるプロンプト付き）"

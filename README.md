@@ -1,49 +1,32 @@
-# はてなブログ 自動下書き投稿ツール セットアップ
+# X成長オートパイロット（Buffer連携）
 
-## 追加されたファイル
+自動化するのは「投稿の作成・画像カード生成・予約」。フォロー/いいね/リプの自動化は
+Xの自動化ルールに触れやすくアカウント凍結リスクがあるため、意図的に入れていません。
 
-- `age_safety_filter.py` … 未成年連想ワードによる除外フィルター
-- `hatena_blog_poster.py` … DMM APIから同人作品を取得し、記事を生成してはてなブログへ**下書き**投稿するスクリプト
-- `.github/workflows/hatena_blog_post.yml` … 上記を実行するGitHub Actionsワークフロー
+## セットアップ（初回のみ・約15分）
+1. GitHubで **公開(Public)リポジトリ** を作り、このフォルダの中身をpush
+   （画像を `raw.githubusercontent.com` で公開するため。投稿文は元々公開されるものだけです）
+2. `config.yaml` の `image_base_url` の `YOUR_NAME/YOUR_REPO` を自分のものに変更
+3. BufferのAPIキーを取得: https://publish.buffer.com/settings/api
+4. ローカルで `pip install -r requirements.txt` →
+   `BUFFER_API_KEY=xxx python autopost.py channels` でチャンネルIDを確認
+5. リポジトリの Settings > Secrets and variables > Actions に登録
+   - `BUFFER_API_KEY` / `BUFFER_CHANNEL_ID`
+   - `ANTHROPIC_API_KEY`（任意。入れると投稿が自動で補充される）
+6. Actions タブで `autopost` を手動実行 → 以降は毎朝6時(JST)に自動
 
-## 動作の要点
+## 事前確認コマンド
+    python autopost.py schedule --dry-run     # 予約内容の確認（API呼び出しなし）
+    python autopost.py render --force         # 画像を作り直す
+    python autopost.py export-csv --limit 10  # API不使用: Buffer手動CSV取り込み用
 
-1. DMM APIで同人作品を取得
-2. `age_safety_filter.py` で未成年を想起させるキーワードを含む作品を除外（除外リストは `outputs/skipped_*.txt` に記録）
-3. 残った作品ごとに記事本文を生成（1作品＝1記事）
-4. はてなブログAtomPub APIへ **下書き（非公開）** として投稿
-5. 公開は必ず人間が内容を確認してから、はてなブログの管理画面で行ってください
+## 仕組み
+- `queue.json` が投稿キュー（現在100件入り: 10/13〜11/6）
+- 1日4枠: 07:30 M(気づき) / 12:15 N(プロンプト+画像) / 19:00 E(問いかけ) / 21:45 S(保存版+画像)
+- 未予約が8件を下回ると Claude が1週間分を自動生成（ハッシュタグ/URL禁止・文字数検証つき）
+- Buffer側に積む件数は `max_scheduled_in_buffer` で制限（無料プランの枠対策）
 
-このワークフローは自動公開を行いません。意図的にそう設計してあります。
-
-## 必要なGitHub Secrets
-
-リポジトリの Settings → Secrets and variables → Actions で以下を登録してください。
-
-| Secret名 | 内容 |
-|---|---|
-| `DMM_API_ID` | DMMアフィリエイトAPIのID（既存のものを流用可） |
-| `DMM_AFFILIATE_ID` | DMMアフィリエイトID（既存のものを流用可） |
-| `HATENA_ID` | はてなID（ログインID） |
-| `HATENA_BLOG_ID` | ブログのドメイン（例: `example.hatenablog.com`） |
-| `HATENA_API_KEY` | はてなブログ「詳細設定」ページ内の「AtomPub」欄に表示されるAPIキー（ログインパスワードとは別物） |
-| `ANTHROPIC_API_KEY` | （任意）記事本文をAI生成したい場合。未設定でもテンプレートで動作します |
-
-`HATENA_API_KEY` の確認場所: はてなブログ管理画面 → 設定 → 詳細設定 → AtomPub → APIキー
-
-## はてな側で確認・設定してほしいこと
-
-- 対象ブログを「アダルトカテゴリ」設定にしているか（はてなブログの規約上、成人向けアフィリエイトコンテンツを扱う場合は必須です）
-- 年齢確認の導線（訪問者への注意喚起）を用意しているか
-- アフィリエイト表記（PR表記）が景品表示法・ステルスマーケティング規制に沿っているか
-
-これらはツールの範囲外（運用者の責任）です。
-
-## 実行方法
-
-GitHub Actions タブ → 「FANZA同人 → はてなブログ 下書き生成」→ Run workflow
-
-## キーワードフィルターの調整
-
-`age_safety_filter.py` の `EXCLUDE_KEYWORDS` に語を追加すると検知が強化されます。
-削除・弱体化する変更は安全性を下げるため、慎重に検討してください。
+## 自動化できない、でも一番効く作業（毎日15分）
+1. 19:00投稿の後1時間は、付いたリプに全部返信する
+2. 同ジャンル（AI・時短）の伸びている投稿に、1日5〜10件、役に立つ一言リプを手動でつける
+3. 週1回、インプレッション上位3投稿の型を見て、`config.yaml` の `theme` や投稿比率を調整する
