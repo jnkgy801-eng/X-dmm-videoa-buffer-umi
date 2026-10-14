@@ -59,7 +59,7 @@
       "body": "「納期が過ぎている相手への催促メールを、①やわらかめ ②普通 ③強め の3パターンで。件名つき」"
     },
     "due": "2026-10-14T12:15",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -80,7 +80,7 @@
       "body": "・了解：「承知しました。〇日までに対応します」\n・確認：「〇〇という理解で合っていますか？」\n・依頼：「〇〇をお願いします。期限は〇日です」"
     },
     "due": "2026-10-14T21:45",
-    "status": "pending",
+    "status": "expired",
     "buffer_post_id": null
   },
   {
@@ -278,8 +278,8 @@
     "text": "勉強が続かない原因、どれに近いですか？\n\n①時間がない ②何からやるか迷う ③やる気が出ない ④成果が見えない\n\n番号で教えてください。AIでできる対策を考えます。",
     "card": null,
     "due": "2026-10-19T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad0142c29c470dd80b54a78"
   },
   {
     "id": "202610192145",
@@ -299,8 +299,8 @@
     "text": "英語の勉強にAIを使うなら、翻訳より「添削」。\n\n自分で書いた英文を直してもらい、直した理由まで聞く。これだけで学びが段違いです。",
     "card": null,
     "due": "2026-10-20T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad0142c5ae624a5af9dc3bd"
   },
   {
     "id": "202610201215",
