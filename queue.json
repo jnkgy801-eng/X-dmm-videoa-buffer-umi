@@ -227,8 +227,8 @@
       "body": "「私が〇〇を説明します。あなたは初心者の生徒として聞き、わかりにくい点を質問してください」"
     },
     "due": "2026-10-18T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad3fd49e272c4918fa4bb03"
   },
   {
     "id": "202610181900",
@@ -248,8 +248,8 @@
       "body": "① 難しい用語をたとえ話で説明してもらう\n② 理解度チェックの問題を作ってもらう\n③ 間違えた問題の解説をしてもらう"
     },
     "due": "2026-10-18T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad3fd4aae173d6e00d7ff32"
   },
   {
     "id": "202610190730",
@@ -269,8 +269,8 @@
       "body": "「〇〇を△週間で学びたい。平日は30分、休日は2時間。週ごとの目標と、毎日やることを表にして」"
     },
     "due": "2026-10-19T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad3fd4a0a208cb3233e1077"
   },
   {
     "id": "202610191900",
@@ -290,8 +290,8 @@
       "body": "・野球で例えて\n・料理で例えて\n・小学生にもわかるように\n・会社の組織で例えて"
     },
     "due": "2026-10-19T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad3fd4b938409f1d0a6ee63"
   },
   {
     "id": "202610200730",
