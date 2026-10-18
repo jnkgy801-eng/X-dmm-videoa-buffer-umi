@@ -311,8 +311,8 @@
       "body": "「以下の英文を自然な表現に直して。直した箇所と理由を、初心者にもわかる日本語で説明して」"
     },
     "due": "2026-10-20T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad54d93769b457934e1b2c5"
   },
   {
     "id": "202610201900",
@@ -332,8 +332,8 @@
       "body": "① まず10個出してもらう\n② 気になった2つを深掘りしてもらう\n③ 「それの弱点は？」と聞く"
     },
     "due": "2026-10-20T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad54d94938409f1d0ed20de"
   },
   {
     "id": "202610210730",
@@ -353,8 +353,8 @@
       "body": "「〇〇のアイデアを10個出して。そのあと実行しやすい順に並べ替えて、上位3つの理由も教えて」"
     },
     "due": "2026-10-21T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad54d94ae173d6e001f4707"
   },
   {
     "id": "202610211900",
@@ -362,8 +362,8 @@
     "text": "AIの案って、ありきたりになりがちじゃないですか？\n\nそんな時は「普通じゃない案を5つ」と頼むのが効きます。みなさんの工夫もぜひ教えてください。",
     "card": null,
     "due": "2026-10-21T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad54d950b0d72757a405b69"
   },
   {
     "id": "202610212145",
