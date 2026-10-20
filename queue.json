@@ -374,8 +374,8 @@
       "body": "・「常識の逆」を考えて\n・「予算ゼロ」で実現するなら？\n・「小学生が考えたら？」\n・「競合が絶対やらないこと」は？"
     },
     "due": "2026-10-21T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad6b110b81183413da49a6f"
   },
   {
     "id": "202610220730",
@@ -383,8 +383,8 @@
     "text": "反対意見をAIに言わせてみる。\n\n自分の企画の穴は、自分では見つけにくい。先に弱点を知っておくと、会議で慌てません。",
     "card": null,
     "due": "2026-10-22T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad6b1102d48e20f64bcfe44"
   },
   {
     "id": "202610221215",
@@ -395,8 +395,8 @@
       "body": "「以下の企画に対して、反対する立場から想定される反論を5つ挙げて。それぞれの対策案もつけて」"
     },
     "due": "2026-10-22T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad6b1112fcafd0f18418e47"
   },
   {
     "id": "202610221900",
@@ -404,8 +404,8 @@
     "text": "企画を考えるとき、一番困るのはどれですか？\n\n①最初の一案 ②案の絞り込み ③説得材料 ④実行計画\n\n番号で教えてください。",
     "card": null,
     "due": "2026-10-22T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad6b1112fcafd0f18418e6f"
   },
   {
     "id": "202610222145",
