@@ -416,8 +416,8 @@
       "body": "「〇〇のタイトル案を、①わかりやすい系 ②インパクト系 ③数字入り系 の3タイプで各5個」"
     },
     "due": "2026-10-22T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad7fc005a0b7fe6fa7c9187"
   },
   {
     "id": "202610230730",
@@ -425,8 +425,8 @@
     "text": "会議の準備は、AIに「論点の洗い出し」を頼むと早い。\n\n議題を貼るだけで、事前に決めておくことが見えてきます。",
     "card": null,
     "due": "2026-10-23T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad7fc015a0b7fe6fa7c91b0"
   },
   {
     "id": "202610231215",
@@ -437,8 +437,8 @@
       "body": "「以下の議題について、事前に決めておくべきことを3つ、参加者に確認すべき質問を3つ挙げて」"
     },
     "due": "2026-10-23T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad7fc018c20162e7ecd7699"
   },
   {
     "id": "202610231900",
@@ -446,8 +446,8 @@
     "text": "「この会議、メールで良かったのでは？」と思ったこと、ありますか？\n\nあるなら、どんな会議でした？AIで事前に論点を整理すると、短くできる気がしています。",
     "card": null,
     "due": "2026-10-23T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad7fc015a0b7fe6fa7c9201"
   },
   {
     "id": "202610232145",
