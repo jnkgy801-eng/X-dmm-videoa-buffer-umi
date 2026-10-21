@@ -458,8 +458,8 @@
       "body": "① 今日やらないと困る？\n② 自分しかできない？\n③ 5分で終わる？"
     },
     "due": "2026-10-23T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad951161093844846d1c873"
   },
   {
     "id": "202610240730",
@@ -467,8 +467,8 @@
     "text": "朝のToDo、全部やろうとしていませんか？\n\nAIに「今日やる3つだけ選んで」と頼むのが一番ラクです。減らす判断こそ、AIに任せやすい。",
     "card": null,
     "due": "2026-10-24T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad95116ecaa6cda041b723a"
   },
   {
     "id": "202610241215",
@@ -479,8 +479,8 @@
       "body": "「以下のToDoを、緊急度×重要度で分類して。今日やる3つと、後回しにしていいものを理由つきで」"
     },
     "due": "2026-10-24T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad95117deacf5d2531fce2e"
   },
   {
     "id": "202610241900",
@@ -488,8 +488,8 @@
     "text": "ToDoリストって、いくつ溜まっていますか？\n\n①10個以下 ②30個くらい ③数えるのが怖い\n\n番号で教えてください。③の方向けのプロンプトも作ります。",
     "card": null,
     "due": "2026-10-24T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ad95117b086d40f5725a47c"
   },
   {
     "id": "202610242145",
