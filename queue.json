@@ -500,8 +500,8 @@
       "body": "「以下の決定事項を、参加者へのお礼とToDo共有のメールにして。担当と期限は箇条書きで」"
     },
     "due": "2026-10-24T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adaa6818d2197cb2a08e6fb"
   },
   {
     "id": "202610250730",
@@ -509,8 +509,8 @@
     "text": "週の終わりの振り返りは、AIに聞き役をやってもらう。\n\n「今週の良かったこと・困ったこと・来週やることを質問して」と頼むだけ。書くより話すほうがラクです。",
     "card": null,
     "due": "2026-10-25T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adaa6818d2197cb2a08e724"
   },
   {
     "id": "202610251215",
@@ -521,8 +521,8 @@
       "body": "「私の1週間の振り返りを手伝って。1問ずつ質問して、最後に来週の目標を3つにまとめて」"
     },
     "due": "2026-10-25T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adaa681d447d56a646ad321"
   },
   {
     "id": "202610251900",
@@ -530,8 +530,8 @@
     "text": "AIの回答がイマイチなとき、プロンプトを見直しますか？それとも諦めますか？\n\n多くは「情報不足」が原因だと感じています。みなさんはどうですか？",
     "card": null,
     "due": "2026-10-25T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adaa682d447d56a646ad34b"
   },
   {
     "id": "202610252145",
