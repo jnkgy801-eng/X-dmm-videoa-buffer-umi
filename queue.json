@@ -542,8 +542,8 @@
       "body": "① 役割（〇〇の専門家として）\n② 目的（何のために）\n③ 条件（文字数・口調）\n④ 出力形式（箇条書き・表）"
     },
     "due": "2026-10-25T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adbf61d0b5343d07057a962"
   },
   {
     "id": "202610260730",
@@ -551,8 +551,8 @@
     "text": "「いい感じにして」はAIに通じない。\n\n「誰に向けて」「何のために」「何文字で」を1行足すだけで、回答が見違えます。",
     "card": null,
     "due": "2026-10-26T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adbf61e6887a2efc18d577e"
   },
   {
     "id": "202610261215",
@@ -563,8 +563,8 @@
       "body": "「あなたは〇〇の専門家です。目的は△△です。対象は□□。条件は××。以下の形式で出力して：（形式）」"
     },
     "due": "2026-10-26T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adbf61ee4be8a4d86302784"
   },
   {
     "id": "202610261900",
@@ -572,8 +572,8 @@
     "text": "AIに「前提」を伝えるとき、どこまで書きますか？\n\n①ほぼ書かない ②1〜2行 ③しっかり書く\n\n私は②です。多すぎても少なすぎても難しい。",
     "card": null,
     "due": "2026-10-26T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adbf61e3d5b27036b5a2abb"
   },
   {
     "id": "202610262145",
