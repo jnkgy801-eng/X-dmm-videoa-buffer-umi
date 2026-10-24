@@ -584,8 +584,8 @@
       "body": "① 「何が違うか」を具体的に伝える\n② 良い例を1つ見せる\n③ 「質問があれば先にして」と頼む"
     },
     "due": "2026-10-26T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6add382dbd33ce99c345d13f"
   },
   {
     "id": "202610270730",
@@ -593,8 +593,8 @@
     "text": "最初から完璧な指示を書かなくていい。\n\n「まず叩き台を出して」→「ここを直して」の2往復で十分。AIは会話で育てるものです。",
     "card": null,
     "due": "2026-10-27T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6add382e6887a2efc1daf2ab"
   },
   {
     "id": "202610271215",
@@ -605,8 +605,8 @@
       "body": "「〇〇をしたい。最適な答えを出すために、私に必要な質問を5つ先にして」"
     },
     "due": "2026-10-27T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6add382ee4be8a4d867ea693"
   },
   {
     "id": "202610271900",
@@ -614,8 +614,8 @@
     "text": "「例を見せる」って、AIにすごく効きますよね。\n\n文章でも表でも、「こんな感じで」と1つ見せるだけで精度が上がります。みなさんの\"効いた一言\"は？",
     "card": null,
     "due": "2026-10-27T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6add382e3d5b27036ba73a48"
   },
   {
     "id": "202610272145",
