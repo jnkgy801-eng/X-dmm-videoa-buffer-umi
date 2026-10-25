@@ -626,8 +626,8 @@
       "body": "・箇条書きで\n・表にして\n・3行以内で\n・結論から先に\n・小学生にもわかる言葉で"
     },
     "due": "2026-10-27T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ade8d590b5343d070f79541"
   },
   {
     "id": "202610280730",
@@ -635,8 +635,8 @@
     "text": "「今日の夕飯、何にしよう」で毎日5分使っていませんか？\n\nAIに食材を伝えれば、10秒で3案出ます。考える時間を、もっと大事なことに。",
     "card": null,
     "due": "2026-10-28T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ade8d5ae4be8a4d86cf86c4"
   },
   {
     "id": "202610281215",
@@ -647,8 +647,8 @@
       "body": "「冷蔵庫に〇〇と△△があります。15分で作れる夕食を3案、手順つきで。洗い物が少ない順に並べて」"
     },
     "due": "2026-10-28T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ade8d5a8b3d437ddc3132e8"
   },
   {
     "id": "202610281900",
@@ -656,8 +656,8 @@
     "text": "毎日の「考えるのが面倒」ランキング、1位は何ですか？\n\n私は献立です。みなさんのも教えてください。AIに任せられるか、一緒に考えます。",
     "card": null,
     "due": "2026-10-28T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ade8d5a8b3d437ddc313342"
   },
   {
     "id": "202610282145",
