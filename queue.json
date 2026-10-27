@@ -668,8 +668,8 @@
       "body": "・献立と買い物リスト\n・旅行の行程づくり\n・プレゼント選びの候補出し\n・引っ越し手続きのチェックリスト"
     },
     "due": "2026-10-28T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adfed690565644c9480d8ba"
   },
   {
     "id": "202610290730",
@@ -677,8 +677,8 @@
     "text": "旅行の計画は、条件を伝えて「叩き台」を作らせる。\n\n行き先・日数・予算・好みの4つを書けば、行程案はすぐ出ます。調整は自分でやればOK。",
     "card": null,
     "due": "2026-10-29T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adfed695837b0fb9bfa5a69"
   },
   {
     "id": "202610291215",
@@ -689,8 +689,8 @@
       "body": "「〇〇に△泊□日。予算は××円、移動は電車。ゆっくり派です。1日ごとの行程を時間つきで」"
     },
     "due": "2026-10-29T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adfed6af266a5f7e105c2d9"
   },
   {
     "id": "202610291900",
@@ -698,8 +698,8 @@
     "text": "旅行の計画、AIに頼むのはアリですか？\n\n私は「叩き台はAI、予約前の確認は自分」がちょうどいいと思っています。みなさんは？",
     "card": null,
     "due": "2026-10-29T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6adfed6a9028e4a57c81cdeb"
   },
   {
     "id": "202610292145",
