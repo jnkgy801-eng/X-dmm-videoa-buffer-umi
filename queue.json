@@ -710,8 +710,8 @@
       "body": "「〇〇を買いたい。予算は△円。重視するのは××。候補を3つ、メリット・デメリットで比べて」"
     },
     "due": "2026-10-29T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae13f78d689807dda1473e5"
   },
   {
     "id": "202610300730",
@@ -719,8 +719,8 @@
     "text": "片付けが進まないとき、AIに「15分でできる手順」を頼む。\n\n小さく区切ると、動き出せます。",
     "card": null,
     "due": "2026-10-30T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae13f78f6d6782c599d7f41"
   },
   {
     "id": "202610301215",
@@ -731,8 +731,8 @@
       "body": "「〇〇の片付けを15分で終わらせたい。やる順番を5ステップで。迷ったときの捨てる基準も教えて」"
     },
     "due": "2026-10-30T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae13f798bc396ba2f13c46a"
   },
   {
     "id": "202610301900",
@@ -740,8 +740,8 @@
     "text": "Excelの関数、どれくらい覚えていますか？\n\n①SUMくらい ②IFまで ③VLOOKUPまで ④全部いける\n\nAIに聞けば、覚えていなくても困りません。最近つまずいた関数があれば教えてください。",
     "card": null,
     "due": "2026-10-30T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae13f798bc396ba2f13c493"
   },
   {
     "id": "202610302145",
