@@ -752,8 +752,8 @@
       "body": "① 表の列名を伝える\n② やりたいことを日本語で書く\n③ ExcelかGoogleスプレッドシートか伝える"
     },
     "due": "2026-10-30T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae295e504f348da40ffa0f1"
   },
   {
     "id": "202610310730",
@@ -761,8 +761,8 @@
     "text": "関数を覚えるより、「やりたいことを日本語で伝える」ほうが速い。\n\n式はAIが作ってくれます。",
     "card": null,
     "due": "2026-10-31T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae295e642598d490d771e25"
   },
   {
     "id": "202610311215",
@@ -773,8 +773,8 @@
       "body": "「A列に日付、B列に売上があります。月ごとの合計を出す関数を、Excel用に。仕組みも1行で説明して」"
     },
     "due": "2026-10-31T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae295e67a72c9efac0ad07e"
   },
   {
     "id": "202610311900",
@@ -782,8 +782,8 @@
     "text": "エラーの「#N/A」「#VALUE!」、見るたび固まりませんか？\n\nAIにエラーと式を貼れば、原因を教えてくれます。次はそのプロンプトを紹介します。",
     "card": null,
     "due": "2026-10-31T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae295e77d94db46db279ee8"
   },
   {
     "id": "202610312145",
