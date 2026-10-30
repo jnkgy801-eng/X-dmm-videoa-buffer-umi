@@ -794,8 +794,8 @@
       "body": "「次の式で #N/A が出ます。式：（貼る）。原因の候補を3つと、直し方を教えて」"
     },
     "due": "2026-10-31T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae3e7bea83a7fb63c871957"
   },
   {
     "id": "202611010730",
@@ -803,8 +803,8 @@
     "text": "データの「ゴミ掃除」にもAIは使える。\n\n全角半角の混在や表記ゆれの整理は、手作業だと地味に時間を取られます。ルールを伝えて任せましょう。",
     "card": null,
     "due": "2026-11-01T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae3e7be6385db216a1804d8"
   },
   {
     "id": "202611011215",
@@ -815,8 +815,8 @@
       "body": "「以下の会社名リストの表記ゆれ（株式会社と(株)など）を統一して。変更前と変更後を2列で表にして」"
     },
     "due": "2026-11-01T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae3e7bf4b8768bfb2cfa0f0"
   },
   {
     "id": "202611011900",
@@ -824,8 +824,8 @@
     "text": "データ分析で「結局どこを見ればいいの？」となること、ありますか？\n\nAIに「この数字から言えることを3つ」と聞くと、見る場所のヒントがもらえます。",
     "card": null,
     "due": "2026-11-01T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae3e7bf4b8768bfb2cfa11a"
   },
   {
     "id": "202611012145",
