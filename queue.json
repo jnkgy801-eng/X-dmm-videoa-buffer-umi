@@ -836,8 +836,8 @@
       "body": "「以下の売上データから、①傾向 ②気になる点 ③次に確認すべきこと を挙げて」"
     },
     "due": "2026-11-01T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae537281891472093a6fa6c"
   },
   {
     "id": "202611020730",
@@ -845,8 +845,8 @@
     "text": "発信のネタ切れは、AIに「質問されること」で解決する。\n\n「私の仕事について、読者が知りたいことを10個質問して」と頼むと、書くことが見えてきます。",
     "card": null,
     "due": "2026-11-02T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae53729ceb491e585cc11e7"
   },
   {
     "id": "202611021215",
@@ -857,8 +857,8 @@
       "body": "「私は〇〇の仕事をしています。初心者が知りたがる疑問を10個挙げて。それぞれ1文で答えて」"
     },
     "due": "2026-11-02T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae53729eaa24d6f9a49815b"
   },
   {
     "id": "202611021900",
@@ -866,8 +866,8 @@
     "text": "発信を続けるうえで、一番キツいのはどれですか？\n\n①ネタ切れ ②時間がない ③反応が少ない ④続けるやる気\n\n番号で教えてください。私も試行錯誤中です。",
     "card": null,
     "due": "2026-11-02T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae53729a11457434979ebf3"
   },
   {
     "id": "202611022145",
