@@ -878,8 +878,8 @@
       "body": "① 自分の体験を1文足す\n② 口癖に直す\n③ 数字や固有名詞を具体的にする"
     },
     "due": "2026-11-02T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae681b2f0984eef333ad2ca"
   },
   {
     "id": "202611030730",
@@ -887,8 +887,8 @@
     "text": "AIに書かせた文章は、そのまま出すと「どこかで見た文」になる。\n\n自分の失敗談を1行足すだけで、一気に読まれる文章に変わります。",
     "card": null,
     "due": "2026-11-03T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae681b2f0984eef333ad2f4"
   },
   {
     "id": "202611031215",
@@ -899,8 +899,8 @@
       "body": "「以下の文章を、親しみやすい口調に直して。私の文体の例：（過去の投稿を3つ貼る）」"
     },
     "due": "2026-11-03T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae681b237c1acd2a0da849b"
   },
   {
     "id": "202611031900",
@@ -908,8 +908,8 @@
     "text": "「AIで書いた文章」って、読んでいて気づきますか？\n\n気づく人は、どんなところで気づきます？「〜と言えるでしょう」が多い気がしています。",
     "card": null,
     "due": "2026-11-03T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae681b237c1acd2a0da84c5"
   },
   {
     "id": "202611032145",
