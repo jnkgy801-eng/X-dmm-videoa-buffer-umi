@@ -920,8 +920,8 @@
       "body": "・「です・ます」を崩して\n・一文を短くして\n・「〜と言えるでしょう」を使わないで\n・具体例を1つ入れて"
     },
     "due": "2026-11-03T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae7d84bd016796999fbd1cd"
   },
   {
     "id": "202611040730",
@@ -929,8 +929,8 @@
     "text": "長文を書く前に、まず「見出しだけ」をAIに作らせる。\n\n骨組みが決まれば、中身を書く時間は半分になります。",
     "card": null,
     "due": "2026-11-04T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae7d84b902c3fb1dec675f0"
   },
   {
     "id": "202611041215",
@@ -941,8 +941,8 @@
       "body": "「〇〇についてのブログ記事の見出し構成を作って。読者は初心者。5つの見出しと、それぞれ一言の要約で」"
     },
     "due": "2026-11-04T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae7d84c779ee9f13cc35688"
   },
   {
     "id": "202611041900",
@@ -950,8 +950,8 @@
     "text": "生成AIに入力してはいけないもの、意識していますか？\n\n個人情報・社外秘・パスワードなどは、入力しないのが基本です。会社のルールを確認したことがある人、いますか？",
     "card": null,
     "due": "2026-11-04T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae7d84cd016796999fbd1f7"
   },
   {
     "id": "202611042145",
