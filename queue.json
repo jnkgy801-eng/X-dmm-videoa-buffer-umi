@@ -962,8 +962,8 @@
       "body": "① 個人名・住所・電話番号を消した？\n② 社外秘の数字は入っていない？\n③ 会社のAI利用ルールを確認した？"
     },
     "due": "2026-11-04T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae94b80a5f6b0f743826cfa"
   },
   {
     "id": "202611050730",
@@ -971,8 +971,8 @@
     "text": "AIはもっともらしい嘘をつくことがある。\n\n特に数字・日付・固有名詞は要注意。仕事で使う情報は、必ず元の情報で確認しましょう。",
     "card": null,
     "due": "2026-11-05T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae94b80da2711fd26a806c5"
   },
   {
     "id": "202611051215",
@@ -983,8 +983,8 @@
       "body": "「わからないことは『わからない』と答えて。推測が入る部分は、推測だと明記して」"
     },
     "due": "2026-11-05T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae94b8194b13c6dd78f2643"
   },
   {
     "id": "202611051900",
@@ -992,8 +992,8 @@
     "text": "AIの回答の「確認」、どうやっていますか？\n\n①検索で裏取り ②別のAIに聞く ③確認しない\n\n番号で教えてください。③の方は、ちょっと心配です。",
     "card": null,
     "due": "2026-11-05T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6ae94b81da2711fd26a80738"
   },
   {
     "id": "202611052145",
