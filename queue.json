@@ -1004,8 +1004,8 @@
       "body": "得意：下書き、要約、言い換え、アイデア出し\n苦手：最新情報、正確な数字、責任の判断"
     },
     "due": "2026-11-05T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6aea851869ad1ef03b6bfa0b"
   },
   {
     "id": "202611060730",
@@ -1013,8 +1013,8 @@
     "text": "AIを「検索の代わり」に使うと、つまずく。\n\nAIは文章を作るのが得意で、最新の事実を調べるのは別の話。目的で使い分けましょう。",
     "card": null,
     "due": "2026-11-06T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6aea8518b8d162e0d8f6cfd3"
   },
   {
     "id": "202611061215",
@@ -1025,8 +1025,8 @@
       "body": "「以下の文章に、事実として確認が必要な部分を全部ピックアップして。確認の方法も教えて」"
     },
     "due": "2026-11-06T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6aea851816e63068f186c003"
   },
   {
     "id": "202611061900",
@@ -1034,8 +1034,8 @@
     "text": "AIを使うことに、後ろめたさを感じたことはありますか？\n\n私は「下書きの補助」なら堂々と使うほうがいいと思っています。みなさんはどうですか？",
     "card": null,
     "due": "2026-11-06T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6aea851987b7c6d24c81a44c"
   },
   {
     "id": "202611062145",
