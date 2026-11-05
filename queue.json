@@ -1046,7 +1046,7 @@
       "body": "① 下書きはAI、判断は自分\n② 数字は必ず裏取り\n③ 機密は入れない\n④ 最終的な責任は自分にある"
     },
     "due": "2026-11-06T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6aebdaf8f283c8dd45b0c116"
   }
 ]
