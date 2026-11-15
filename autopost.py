@@ -263,6 +263,7 @@ def cmd_schedule(cfg: dict[str, Any], args: argparse.Namespace) -> None:
     room = max(0, int(cfg["max_scheduled_in_buffer"]) - in_buffer)
     pending = sorted((it for it in queue if it.get("status") == "pending"), key=lambda i: i["due"])
     done = 0
+    failed = 0
     for it in pending:
         due = parse_local(it["due"], tz)
         if due <= now + timedelta(minutes=10):
@@ -282,13 +283,23 @@ def cmd_schedule(cfg: dict[str, Any], args: argparse.Namespace) -> None:
                 it["buffer_post_id"] = create_post(key, channel_id, it["text"], due.astimezone(timezone.utc), image_url)
                 it["status"] = "scheduled"
             except AutopostError as e:
-                print(f"[skip] {it['id']}: {e}", file=sys.stderr)
+                print(f"::error::[skip] {it['id']}: {e}", file=sys.stderr)
+                failed += 1
                 continue  # 1件の失敗で全体を止めない
             save_queue(queue)
         done += 1
     if not args.dry_run:
         save_queue(queue)
     print(f"scheduled {done} post(s); buffer room was {room}")
+    future = in_buffer + done
+    if not args.dry_run:
+        if failed:
+            raise AutopostError(f"{failed}件のBuffer予約に失敗しました")
+        if future == 0:
+            raise AutopostError("Buffer側に未来の予約投稿が1件もありません（投稿キュー切れ）。"
+                                "ANTHROPIC_API_KEY の設定、または queue.json への追加が必要です")
+        if future < 4:
+            print(f"::warning::予約済みの投稿が残り{future}件です")
 
 
 # ---------------------------------------------------------------- 取り込み・生成
@@ -307,9 +318,12 @@ def next_due_slots(cfg: dict[str, Any], queue: list[Item], count: int) -> list[t
     else:
         day, idx = datetime.now(tz).date() + timedelta(days=1), 0
     out: list[tuple[str, str]] = []
-    for _ in range(count):
+    earliest = datetime.now(tz) + timedelta(minutes=30)  # 過去・直近の枠は作らない
+    while len(out) < count:
         s = slots[idx]
-        out.append((f"{day.isoformat()}T{s['time']}", s["kind"]))
+        due = f"{day.isoformat()}T{s['time']}"
+        if parse_local(due, tz) > earliest:
+            out.append((due, s["kind"]))
         idx += 1
         if idx >= len(slots):
             day, idx = day + timedelta(days=1), 0
