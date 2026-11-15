@@ -1055,8 +1055,8 @@
     "text": "AIに文章を頼むときは、「何を書くか」より先に「誰に向けて書くか」を伝えるのがコツです。\n同じ内容でも、新入社員向けと取引先向けでは言葉選びがまるで変わります。",
     "card": null,
     "due": "2026-11-16T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa24c5b364e06256ddd9"
   },
   {
     "id": "202611161215",
@@ -1067,8 +1067,8 @@
       "body": "「以下のメモを、決定事項・未決事項・担当者と期限の3項目に整理して。曖昧な点は最後に質問として挙げて」"
     },
     "due": "2026-11-16T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa25918fe79d2ee29571"
   },
   {
     "id": "202611161900",
@@ -1076,8 +1076,8 @@
     "text": "メールの返信で、いちばん時間がかかるのはどこですか？\n\n1. 書き出しの一文\n2. 失礼のない言い回し\n3. 断り方\n4. 結局ぜんぶ\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-16T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa2576c23bf1c77d5d97"
   },
   {
     "id": "202611162145",
@@ -1088,8 +1088,8 @@
       "body": "①下書きの作成\n②情報の整理と要約\n③言い換えの候補出し"
     },
     "due": "2026-11-16T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa25b9a106584caac9df"
   },
   {
     "id": "202611170730",
@@ -1097,8 +1097,8 @@
     "text": "要約を頼むときは「3行で」「中学生にも分かる言葉で」など、長さと読み手を指定すると精度が上がります。\n指定なしだと、AIはちょうどいい長さを勝手に決めてしまいます。",
     "card": null,
     "due": "2026-11-17T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa2576c23bf1c77d5dd9"
   },
   {
     "id": "202611171215",
@@ -1109,8 +1109,8 @@
       "body": "「次の文章を、中学生にも分かる3行に要約して。そのあと、重要な用語を3つ選んで一言で説明して」"
     },
     "due": "2026-11-17T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa2676c23bf1c77d5e3d"
   },
   {
     "id": "202611171900",
@@ -1118,8 +1118,8 @@
     "text": "AIを使う場面で、いちばん多いのはどれですか？\n\n1. 仕事の文章\n2. 勉強・調べもの\n3. 家事・生活\n4. まだ使っていない\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-17T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa26c5b364e06256e045"
   },
   {
     "id": "202611172145",
@@ -1130,8 +1130,8 @@
       "body": "①役割：あなたは〇〇の専門家です\n②目的：何のために使うか\n③条件：字数・口調・避けたいこと\n④出力形式：箇条書き、表など"
     },
     "due": "2026-11-17T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa2676c23bf1c77d5e78"
   },
   {
     "id": "202611180730",
@@ -1139,8 +1139,8 @@
     "text": "AIの1回目の答えで完璧を狙わなくて大丈夫です。\n「もう少し短く」「具体例を足して」と追加で伝えるほうが、ゼロから考えるより早く仕上がります。",
     "card": null,
     "due": "2026-11-18T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa26e5a113497ae957d8"
   },
   {
     "id": "202611181215",
@@ -1151,8 +1151,8 @@
       "body": "「次の英文を、丁寧さは保ったまま短くして。直した箇所には理由を一言ずつ添えて」"
     },
     "due": "2026-11-18T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6af9aa26e86a5789a60e4e3e"
   },
   {
     "id": "202611181900",
