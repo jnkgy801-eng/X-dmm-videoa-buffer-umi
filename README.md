@@ -30,3 +30,19 @@ Xの自動化ルールに触れやすくアカウント凍結リスクがある�
 1. 19:00投稿の後1時間は、付いたリプに全部返信する
 2. 同ジャンル（AI・時短）の伸びている投稿に、1日5〜10件、役に立つ一言リプを手動でつける
 3. 週1回、インプレッション上位3投稿の型を見て、`config.yaml` の `theme` や投稿比率を調整する
+
+## 追加機能（アカウントパワー強化）
+- **時刻のゆらぎ**: `schedule.jitter_minutes` で予約時刻を±数分ずらす（queue上の枠は不変）
+- **自己リプのスレッド**: N/E/S に `followup`（2投稿目）を付けて Buffer の thread で予約。
+  会話・滞在時間のシグナルを作る。Buffer側で拒否されたら単発投稿に自動フォールバック
+- **生成の品質ガード**: 類似度チェック・禁止表現・冒頭フック指定・本人の実体験(`experiences`)の反映
+- **学習ループ**: Xアナリティクスの「コンテンツ」CSVを書き出し →
+      python autopost.py analyze content.csv
+  種別・時間帯別の反応が表示され、`insights.json` を `generate` が次回の生成に使う。
+  `insights.json` をコミットすると Actions でも反映される（週1回の更新を推奨）
+- Actions: 同時実行の防止、`pull --rebase`、失敗時もキューを保存、pipキャッシュ
+
+## 初回だけの動作確認
+1. `python autopost.py schedule --dry-run` で時刻のゆらぎ・thread表示を確認
+2. Actionsを手動実行し、Bufferに予約された N/E/S がスレッドになっているか確認
+   （単発になっていたらログの `::warning::[thread失敗` を確認）
