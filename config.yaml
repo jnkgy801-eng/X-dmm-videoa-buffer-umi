@@ -11,6 +11,16 @@ slots:
   - { time: "19:00", kind: "E" }
   - { time: "21:45", kind: "S" }
 
+# --- 投稿の見せ方 ---
+schedule:
+  jitter_minutes: 7     # 予約時刻を±7分ずらす(毎日ぴったり同じ分だと機械的に見えるため)
+
+# 自分への続きリプ(スレッド)。会話・滞在時間のシグナルを作る。followupがある投稿だけ対象。
+# Buffer側で拒否された場合は単発投稿に自動で切り替わる
+thread:
+  enabled: true
+  kinds: [N, E, S]
+
 # --- Buffer ---
 # 無料プランは予約枠に上限があるため、Buffer側に同時に積む件数を制限する
 max_scheduled_in_buffer: 10
@@ -24,3 +34,12 @@ generate:
   min_pending: 8        # 未予約の投稿がこれを下回ったら補充
   batch_days: 7         # 補充時に何日分作るか
   theme: "生成AIを使った仕事・勉強・日常の時短術（コピペで使えるプロンプト付き）"
+  # ↓ここを自分の言葉で埋めるほど「AI量産感」が消えて保存・返信されやすくなる
+  persona: "AIで仕事の時短をしている会社員。難しい言葉を使わず、すぐ試せる形で教える"
+  experiences: []       # 例: ["議事録の要約をAIに任せて週1時間浮いた", "最初は指示が曖昧で使えない出力ばかりだった"]
+  similarity_threshold: 0.8   # 既存投稿とこれ以上似ていたら再生成
+  banned_phrases: ["絶対", "誰でも", "必ず稼", "月収", "爆速", "完全版"]
+
+# analyze(反応データ分析)の重み。X内部の重みではなく運用上の目安。好みで調整
+analyze:
+  weights: { likes: 1, reposts: 3, replies: 8, bookmarks: 5, profile: 4, follows: 10 }
