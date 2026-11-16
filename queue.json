@@ -1160,8 +1160,8 @@
     "text": "AIを使うのは、朝と夜のどちらが多いですか？\n\n1. 朝の準備時間\n2. 日中の仕事中\n3. 夜の自由時間\n4. 決まっていない\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-18T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afa539cd7e5fee6388f5917"
   },
   {
     "id": "202611182145",
