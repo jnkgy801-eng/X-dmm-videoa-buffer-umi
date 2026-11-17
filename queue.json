@@ -1181,8 +1181,8 @@
     "text": "AIの答えが的外れなときは、質問が悪いのではなく、前提が足りないことがほとんどです。\n背景を1行足すだけで、答えがぐっと近づきます。",
     "card": null,
     "due": "2026-11-19T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afbca1a3e42cd001e4bb9da"
   },
   {
     "id": "202611191215",
@@ -1193,8 +1193,8 @@
       "body": "「〇〇について、初心者向けに5問のクイズを作って。答えと解説は最後にまとめて」"
     },
     "due": "2026-11-19T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afbca1a4b26315855ba7d90"
   },
   {
     "id": "202611191900",
@@ -1202,8 +1202,8 @@
     "text": "調べものに、1日でどのくらい時間を使っていますか？\n\n1. 30分未満\n2. 30分〜1時間\n3. 1〜2時間\n4. 2時間以上\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-19T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afbca1af83aaca8f3a72c9f"
   },
   {
     "id": "202611192145",
@@ -1214,8 +1214,8 @@
       "body": "①数字や固有名詞は、元の情報で確かめる\n②情報が古くないか、日付を見る\n③自分の状況に当てはまるか考える"
     },
     "due": "2026-11-19T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afbca1a3e42cd001e4bba08"
   },
   {
     "id": "202611200730",
