@@ -1223,8 +1223,8 @@
     "text": "金曜の夕方は、今週やったことをAIに箇条書きで渡して「振り返りの質問をして」と頼むのがおすすめです。\n自分では気づかなかった成果が見つかります。",
     "card": null,
     "due": "2026-11-20T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afd11899f3765f6ab27bf82"
   },
   {
     "id": "202611201215",
@@ -1235,8 +1235,8 @@
       "body": "「今週やったことの箇条書きを、上司向けの週報に整えて。成果・課題・来週の予定の3段落で、簡潔に」"
     },
     "due": "2026-11-20T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afd1189aa3b065dd96a3b5d"
   },
   {
     "id": "202611201900",
@@ -1244,8 +1244,8 @@
     "text": "今週、いちばん時間を取られた作業はどれですか？\n\n1. メールやチャット\n2. 資料づくり\n3. 会議・打ち合わせ\n4. 調べもの\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-20T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afd11899f3765f6ab27bfb6"
   },
   {
     "id": "202611202145",
