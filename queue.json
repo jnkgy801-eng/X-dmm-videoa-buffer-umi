@@ -1256,8 +1256,8 @@
       "body": "①思いつく限り全部書き出す\n②期限の近い順に並べる\n③AIに優先順位の案を出してもらう\n④最後は自分で決める"
     },
     "due": "2026-11-20T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afe5d5b59eff0b616d35f76"
   },
   {
     "id": "202611210730",
@@ -1265,8 +1265,8 @@
     "text": "休日の献立づくりは、冷蔵庫の中身をそのままAIに渡すのが楽です。\n「何を作るか」を考える時間が、ほぼなくなります。",
     "card": null,
     "due": "2026-11-21T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afe5d5bf6b6aa0cd495744a"
   },
   {
     "id": "202611211215",
@@ -1277,8 +1277,8 @@
       "body": "「冷蔵庫に〇〇と〇〇があります。15分で作れる夕食を3案、手順は各3行以内で教えて」"
     },
     "due": "2026-11-21T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afe5d5b3802f5b9fc5ec72d"
   },
   {
     "id": "202611211900",
@@ -1286,8 +1286,8 @@
     "text": "休日にAIを使うとしたら、どれが多そうですか？\n\n1. 献立づくり\n2. お出かけの計画\n3. 片付けの段取り\n4. 休日は使わない\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-21T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6afe5d5c749099bdc70314df"
   },
   {
     "id": "202611212145",
