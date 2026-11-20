@@ -1298,8 +1298,8 @@
       "body": "①日数と予算の目安\n②行きたい場所・やりたいこと\n③苦手なこと（人混み、長距離移動など）\n④移動手段"
     },
     "due": "2026-11-21T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6affab0bd5f8acdd0d62e435"
   },
   {
     "id": "202611220730",
@@ -1307,8 +1307,8 @@
     "text": "日曜の夜に、来週の予定をAIに渡して「余裕のある時間帯はどこ？」と聞いてみてください。\n月曜の朝の気持ちが、少し軽くなります。",
     "card": null,
     "due": "2026-11-22T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6affab0bca85ebefb0ea5a65"
   },
   {
     "id": "202611221215",
@@ -1319,8 +1319,8 @@
       "body": "「来週の予定を貼ります。詰め込みすぎの日と、余裕のある日を教えて。調整案も2つ出して」"
     },
     "due": "2026-11-22T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6affab0b738ce4635f7af581"
   },
   {
     "id": "202611221900",
@@ -1328,8 +1328,8 @@
     "text": "来週、1つだけ時短できるとしたら何を楽にしたいですか？\n\n1. メール・連絡\n2. 資料・文章づくり\n3. 情報収集\n4. 予定・タスクの管理\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-22T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6affab0b7b0a126ceb9cd532"
   },
   {
     "id": "202611222145",
