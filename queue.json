@@ -1340,8 +1340,8 @@
       "body": "①毎日同じ作業を1つだけ選ぶ\n②うまくいったプロンプトを保存する\n③使うたびに1行だけ直す\n④2週間続けて見直す"
     },
     "due": "2026-11-22T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b00fb58dd205ed779b038b2"
   },
   {
     "id": "202611230730",
@@ -1349,8 +1349,8 @@
     "text": "AIに「どう思う？」と聞くより、「3つの案を出して、それぞれの弱点も挙げて」と頼むほうが、比べやすい答えが返ってきます。",
     "card": null,
     "due": "2026-11-23T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b00fb5920a2d09a0ac7203f"
   },
   {
     "id": "202611231215",
@@ -1361,8 +1361,8 @@
       "body": "「次の2つの案を、費用・手間・リスクの3点で比べる表にして。最後におすすめを理由つきで1つ挙げて」"
     },
     "due": "2026-11-23T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b00fb595102766245eb6fa3"
   },
   {
     "id": "202611231900",
@@ -1370,8 +1370,8 @@
     "text": "比べて選ぶとき、いちばん悩むのはどこですか？\n\n1. 選択肢を集める\n2. 比べる基準を決める\n3. 費用\n4. 最後の決断\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-23T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b00fb59dd205ed779b03945"
   },
   {
     "id": "202611232145",
