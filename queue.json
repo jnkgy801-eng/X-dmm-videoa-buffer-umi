@@ -1382,8 +1382,8 @@
       "body": "①選択肢を全部書く\n②比べる軸を決める\n③表にしてもらう\n④決め手は自分で選ぶ"
     },
     "due": "2026-11-23T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b023f11846b0ee9074d5837"
   },
   {
     "id": "202611240730",
@@ -1391,8 +1391,8 @@
     "text": "AIに指示を出すとき、「やってはいけないこと」を1つ書くと、的外れな答えが減ります。\n例：専門用語は使わないで。",
     "card": null,
     "due": "2026-11-24T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b023f11d864a011058882c0"
   },
   {
     "id": "202611241215",
@@ -1403,8 +1403,8 @@
       "body": "「次の文章を、専門用語を使わずに小学生にも伝わる言葉で言い換えて。例え話を1つ入れて」"
     },
     "due": "2026-11-24T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b023f12d5eabfb8cc71e294"
   },
   {
     "id": "202611241900",
@@ -1412,8 +1412,8 @@
     "text": "AIに頼むとき、いちばん悩むのはどれですか？\n\n1. 何と書けばいいか\n2. 長さや形式\n3. 答えが合っているか\n4. そもそも何を頼むか\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-24T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b023f12d864a011058882f2"
   },
   {
     "id": "202611242145",
