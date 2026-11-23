@@ -1424,8 +1424,8 @@
       "body": "①誰に読ませるか\n②1文は短く\n③結論を先に\n④専門用語は言い換える"
     },
     "due": "2026-11-24T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b039687d5eabfb8ccf53824"
   },
   {
     "id": "202611250730",
@@ -1433,8 +1433,8 @@
     "text": "メモは「あとで整理しよう」と思うほど溜まります。\n思いついたまま全部AIに貼って「テーマ別に分けて」と頼むと、整理がほんの数分で終わります。",
     "card": null,
     "due": "2026-11-25T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b039687cc364169c19ded5c"
   },
   {
     "id": "202611251215",
@@ -1445,8 +1445,8 @@
       "body": "「以下のメモを、テーマごとにグループ分けして見出しを付けて。重複はまとめて、やることには☐を付けて」"
     },
     "due": "2026-11-25T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b039688c72676f5e9765256"
   },
   {
     "id": "202611251900",
@@ -1454,8 +1454,8 @@
     "text": "メモは普段どこに残していますか？\n\n1. スマホのメモ帳\n2. 手帳・ノート\n3. チャットの自分宛て\n4. 残していない\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-25T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b039688cc364169c19dedec"
   },
   {
     "id": "202611252145",
