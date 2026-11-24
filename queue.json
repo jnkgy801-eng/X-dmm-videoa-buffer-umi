@@ -1466,8 +1466,8 @@
       "body": "①1か所に集める\n②週1回AIに整理させる\n③やることだけ抜き出す\n④終わったら消す"
     },
     "due": "2026-11-25T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b051c566734c08a26b3c02f"
   },
   {
     "id": "202611260730",
@@ -1475,8 +1475,8 @@
     "text": "AIは「なぜ？」を5回くり返す深掘りが得意です。\nトラブルの原因を考えるとき、1人で悩む前に壁打ち相手として使ってみてください。",
     "card": null,
     "due": "2026-11-26T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b051c566734c08a26b3c079"
   },
   {
     "id": "202611261215",
@@ -1487,8 +1487,8 @@
       "body": "「次の問題について「なぜ？」を5回くり返して原因を掘り下げて。最後に今日できる対策を3つ挙げて」"
     },
     "due": "2026-11-26T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b051c566734c08a26b3c09f"
   },
   {
     "id": "202611261900",
@@ -1496,8 +1496,8 @@
     "text": "仕事や勉強で、最近つまずいたのはどれですか？\n\n1. 時間が足りない\n2. やる気が出ない\n3. やり方が分からない\n4. 優先順位に迷う\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-26T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b051c57c43c1f2f5c8db80c"
   },
   {
     "id": "202611262145",
@@ -1508,8 +1508,8 @@
       "body": "①なぜそう思う？\n②反対の意見は？\n③見落としはない？\n④次の一歩は？"
     },
     "due": "2026-11-26T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b051c57db52b449cf294068"
   },
   {
     "id": "202611270730",
