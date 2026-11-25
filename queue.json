@@ -1517,8 +1517,8 @@
     "text": "金曜の仕事終わりに、来週の気がかりを全部AIに貼って「やることリストにして」と頼んでみてください。\n頭の中のモヤモヤを外に出すと、週末が楽になります。",
     "card": null,
     "due": "2026-11-27T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b065d1c5d949f6c2a6f3702"
   },
   {
     "id": "202611271215",
@@ -1529,8 +1529,8 @@
       "body": "「来週の気がかりを箇条書きにしました。やることリストに直して、最初の一歩を15分以内でできる形にして」"
     },
     "due": "2026-11-27T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b065d1c9cddd8483aa7d96c"
   },
   {
     "id": "202611271900",
@@ -1538,8 +1538,8 @@
     "text": "週末に仕事のことが頭から離れないことはありますか？\n\n1. よくある\n2. たまにある\n3. ほとんどない\n4. 完全に忘れる\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-27T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b065d1c22dfb7833a79db1b"
   },
   {
     "id": "202611272145",
@@ -1550,8 +1550,8 @@
       "body": "①気がかりを全部出す\n②やること・待つこと・忘れていいことに分ける\n③最初の一歩だけ決める"
     },
     "due": "2026-11-27T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b065d1d9cddd8483aa7da5d"
   },
   {
     "id": "202611280730",
