@@ -1559,8 +1559,8 @@
     "text": "片付けは「どこから手を付けるか」で止まりがちです。\n部屋の状態を言葉で伝えて、順番だけAIに決めてもらうと動き出しやすくなります。",
     "card": null,
     "due": "2026-11-28T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b07a693b96dd8d351858ab0"
   },
   {
     "id": "202611281215",
@@ -1571,8 +1571,8 @@
       "body": "「〇〇の部屋を30分で片付けたいです。散らかっているのは□□です。最初にやることから順に5つ、手順を出して」"
     },
     "due": "2026-11-28T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b07a693d4eda4b659d37982"
   },
   {
     "id": "202611281900",
@@ -1580,8 +1580,8 @@
     "text": "休日の家事で、後回しにしがちなのはどれですか？\n\n1. 片付け\n2. 掃除\n3. 洗濯・衣替え\n4. 書類の整理\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-28T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b07a694b96dd8d351858af4"
   },
   {
     "id": "202611282145",
@@ -1592,8 +1592,8 @@
       "body": "①時間を30分に区切る\n②場所を1か所に絞る\n③迷う物は保留の箱へ\n④終わったらすぐ捨てに行く"
     },
     "due": "2026-11-28T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b07a6949f6dda31ccbd0067"
   },
   {
     "id": "202611290730",
