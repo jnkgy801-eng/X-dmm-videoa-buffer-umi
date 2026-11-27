@@ -1601,8 +1601,8 @@
     "text": "日曜の夜は「来週の自分へのひとこと」をAIと一緒に考えてみてください。\nやることではなく、気持ちの整え方を決めると、月曜が少し楽になります。",
     "card": null,
     "due": "2026-11-29T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b08f9e4658222306cdabda1"
   },
   {
     "id": "202611291215",
@@ -1613,8 +1613,8 @@
       "body": "「今週よかったこと・うまくいかなかったことを話します。質問しながら振り返りを手伝って。最後に来週の目標を1つにまとめて」"
     },
     "due": "2026-11-29T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b08f9e4062ed764a8dd7a1c"
   },
   {
     "id": "202611291900",
@@ -1622,8 +1622,8 @@
     "text": "来週いちばん気が重いのはどれですか？\n\n1. 会議や打ち合わせ\n2. 締め切り\n3. 人間関係\n4. 特にない\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-29T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b08f9e41fd46e62e70c0248"
   },
   {
     "id": "202611292145",
@@ -1634,8 +1634,8 @@
       "body": "①今週の良かったことを1つ書く\n②来週の予定を確認する\n③やることを3つに絞る\n④早めに寝る"
     },
     "due": "2026-11-29T21:45",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b08f9e51fd46e62e70c02b2"
   },
   {
     "id": "202611300730",
