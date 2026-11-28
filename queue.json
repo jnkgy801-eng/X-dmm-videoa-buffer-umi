@@ -1643,8 +1643,8 @@
     "text": "12月に入る前に、今年の目標を見返してみませんか？\nAIに目標を貼って「達成度を一緒に振り返って」と頼むと、客観的に整理できます。",
     "card": null,
     "due": "2026-11-30T07:30",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b0a45eceada83daa6bdfdf5"
   },
   {
     "id": "202611301215",
@@ -1655,8 +1655,8 @@
       "body": "「今年の初めに立てた目標は次の通りです。達成できたこと、できなかったこと、来年に持ち越すことに分けて整理して」"
     },
     "due": "2026-11-30T12:15",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b0a45ec23fb5b7700147b73"
   },
   {
     "id": "202611301900",
@@ -1664,8 +1664,8 @@
     "text": "今年の目標、どのくらい進んでいますか？\n\n1. ほぼ達成\n2. 半分くらい\n3. これから巻き返す\n4. 目標は立てていない\n\n番号で教えてください。",
     "card": null,
     "due": "2026-11-30T19:00",
-    "status": "pending",
-    "buffer_post_id": null
+    "status": "scheduled",
+    "buffer_post_id": "6b0a45ec41454797eae6e530"
   },
   {
     "id": "202611302145",
